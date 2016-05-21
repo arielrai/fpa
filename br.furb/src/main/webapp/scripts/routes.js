@@ -9,11 +9,11 @@ function myAppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
 
 	$stateProvider.state('login', {
 		url : '/login',
-		templateUrl : '/pages/login.html',
+		templateUrl : 'pages/login.html',
 		controller : 'LoginController'
 	}).state('home', {
 		url : '/home',
-		templateUrl : '/pages/home.html',
+		templateUrl : 'pages/home.html',
 		controller : 'HomeController'
 	});
 
