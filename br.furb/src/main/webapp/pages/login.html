@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <div class="page-header">
+            <h1>Login</h1>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label>E-mail:</label>
+            <input class="form-control" placeholder="email@email.com" ng-model="credencial.email" type="email">
+        </div>
+
+        <div class="form-group">
+            <label>Senha:</label>
+            <input class="form-control" placeholder="Digite sua senha" ng-model="credencial.senha" type="password">
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-sm-offset-3 pull-right">
+                <button class="btn btn-primary btn-block" ng-click="login(credencial)">Entrar</button>
+            </div>
+        </div>
+    </div>
+</div>
