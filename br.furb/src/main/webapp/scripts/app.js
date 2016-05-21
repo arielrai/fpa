@@ -2,29 +2,29 @@
 
 angular.module('brfurb', [ 'ngRoute', 'ngResource' ]).config(
 		[ '$routeProvider', function($routeProvider) {
-			$stateProvider.state('contacts', {
-				abstract : true,
-				url : '/contacts',
-				templateUrl : 'contacts.html',
-				controller : function($scope) {
-					$scope.contacts = [ {
-						id : 0,
-						name : "Alice"
-					}, {
-						id : 1,
-						name : "Bob"
-					} ];
-				}
-			}).state('contacts.list', {
-				url : '/list',
-				templateUrl : 'contacts.list.html'
-			}).state('contacts.detail', {
-				url : '/:id',
-				templateUrl : 'contacts.detail.html',
-				controller : function($scope, $stateParams) {
-					$scope.person = $scope.contacts[$stateParams.id];
-				}
-			})
+//			$routeProvider.state('contacts', {
+//				abstract : true,
+//				url : '/contacts',
+//				templateUrl : 'contacts.html',
+//				controller : function($scope) {
+//					$scope.contacts = [ {
+//						id : 0,
+//						name : "Alice"
+//					}, {
+//						id : 1,
+//						name : "Bob"
+//					} ];
+//				}
+//			}).state('contacts.list', {
+//				url : '/list',
+//				templateUrl : 'contacts.list.html'
+//			}).state('contacts.detail', {
+//				url : '/:id',
+//				templateUrl : 'contacts.detail.html',
+//				controller : function($scope, $stateParams) {
+//					$scope.person = $scope.contacts[$stateParams.id];
+//				}
+//			})
 
 			$routeProvider.when('/', {
 				templateUrl : 'views/landing.html',
