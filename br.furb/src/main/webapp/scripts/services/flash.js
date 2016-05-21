@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('brfurb').factory('flash', ['$rootScope', function ($rootScope) {
+angular.module('fpa').factory('flash', ['$rootScope', function ($rootScope) {
     var messages = [];
     var currentMessage = {};
 

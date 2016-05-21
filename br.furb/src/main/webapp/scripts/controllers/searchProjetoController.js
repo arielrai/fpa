@@ -1,6 +1,6 @@
 
 
-angular.module('brfurb').controller('SearchProjetoController', function($scope, $http, $filter, ProjetoResource ) {
+angular.module('fpa').controller('SearchProjetoController', function($scope, $http, $filter, ProjetoResource ) {
 
     $scope.search={};
     $scope.currentPage = 0;

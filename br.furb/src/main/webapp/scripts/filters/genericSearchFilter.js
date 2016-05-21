@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('brfurb').filter('searchFilter', function() {
+angular.module('fpa').filter('searchFilter', function() {
 
     function matchObjectProperties(expectedObject, actualObject) {
         var flag = true;

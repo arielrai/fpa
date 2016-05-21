@@ -1,6 +1,6 @@
 
 
-angular.module('brfurb').controller('EditProjetoController', function($scope, $routeParams, $location, flash, ProjetoResource ) {
+angular.module('fpa').controller('EditProjetoController', function($scope, $routeParams, $location, flash, ProjetoResource ) {
     var self = this;
     $scope.disabled = false;
     $scope.$location = $location;

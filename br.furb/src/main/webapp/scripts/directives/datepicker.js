@@ -1,7 +1,7 @@
 'use strict';
 
 var DATE_REGEX = /^([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9])$/;
-angular.module('brfurb').directive('date', function($parse, dateFilter) {
+angular.module('fpa').directive('date', function($parse, dateFilter) {
     return {
         restrict : "E",
         replace : true,
@@ -55,7 +55,7 @@ angular.module('brfurb').directive('date', function($parse, dateFilter) {
 
             var enhancedLinker = function(scope, element, attrs, ngModelCtrl) {
                 if(!ngModelCtrl) return;
-                
+
                 var dateParser = function(value) {
                     if(value) {
                         var d = value.match(DATE_REGEX);
@@ -78,7 +78,7 @@ angular.module('brfurb').directive('date', function($parse, dateFilter) {
                     }
                     return;
                 }
-                
+
                 ngModelCtrl.$parsers.unshift(dateParser);
                 ngModelCtrl.$formatters.unshift(dateFormatter);
 

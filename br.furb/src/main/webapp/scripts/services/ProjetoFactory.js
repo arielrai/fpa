@@ -1,4 +1,4 @@
-angular.module('brfurb').factory('ProjetoResource', function($resource) {
+angular.module('fpa').factory('ProjetoResource', function($resource) {
 	var resource = $resource('rest/projetos/:ProjetoId', {
 		ProjetoId : '@id'
 	}, {

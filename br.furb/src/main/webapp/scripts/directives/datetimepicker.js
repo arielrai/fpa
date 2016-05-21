@@ -1,7 +1,7 @@
 'use strict';
 
 var LOCAL_DATETIME_REGEX = /^([0-2][0-9]{3})\-([0-1][0-9])\-([0-3][0-9])\ ([0-5][0-9])\:([0-5][0-9])\:([0-5][0-9])$/;
-angular.module('brfurb').directive('datetime', function($parse, dateFilter) {
+angular.module('fpa').directive('datetime', function($parse, dateFilter) {
     return {
         restrict : "E",
         replace : true,
@@ -56,7 +56,7 @@ angular.module('brfurb').directive('datetime', function($parse, dateFilter) {
 
             var enhancedLinker = function(scope, element, attrs, ngModelCtrl) {
                 if(!ngModelCtrl) return;
-                
+
                 var localDateTimeParser = function(value) {
                     if(value) {
                         var d = value.match(LOCAL_DATETIME_REGEX);
@@ -80,7 +80,7 @@ angular.module('brfurb').directive('datetime', function($parse, dateFilter) {
                     }
                     return;
                 }
-                
+
                 ngModelCtrl.$parsers.unshift(localDateTimeParser);
                 ngModelCtrl.$formatters.unshift(localDateTimeFormatter);
 

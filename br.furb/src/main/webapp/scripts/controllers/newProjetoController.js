@@ -1,5 +1,5 @@
 
-angular.module('brfurb').controller('NewProjetoController', function ($scope, $location, locationParser, flash, ProjetoResource ) {
+angular.module('fpa').controller('NewProjetoController', function ($scope, $location, locationParser, flash, ProjetoResource ) {
     $scope.disabled = false;
     $scope.$location = $location;
     $scope.projeto = $scope.projeto || {};
