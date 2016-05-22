@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "Faixa_Complexidade")
-@XmlRootElement
 public class FaixaComplexidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
