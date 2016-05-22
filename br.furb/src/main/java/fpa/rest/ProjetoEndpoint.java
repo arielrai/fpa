@@ -3,6 +3,7 @@ package fpa.rest;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
@@ -20,6 +21,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+
+import org.hibernate.Criteria;
+
+import fpa.components.projeto.ProjetoTable;
+import fpa.components.table.TableBean;
 import fpa.model.Projeto;
 
 /**
@@ -30,7 +36,24 @@ import fpa.model.Projeto;
 public class ProjetoEndpoint {
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
-
+	@Inject private ProjetoTable projetoTable;
+	
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("table")
+	public Response getTable(TableBean<Projeto> entity) {
+		return Response.ok(projetoTable.createTable(entity.getPagination().getPage(), 
+				entity.getPagination().getCountPerPage(), entity.getSortBy(), entity.getSortOrder(), null)).build();
+	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("table")
+	public Response getTable() {
+		return Response.ok(projetoTable.createTable(0, 20, "nome", "desc", null)).build();
+	}
+	
 	@POST
 	@Consumes("application/json")
 	public Response create(Projeto entity) {
@@ -55,6 +78,7 @@ public class ProjetoEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
 	public Response findById(@PathParam("id") Long id) {
+		Criteria createCriteria = em.unwrap(org.hibernate.Session.class).createCriteria(Projeto.class);
 		TypedQuery<Projeto> findByIdQuery = em
 				.createQuery(
 						"SELECT DISTINCT p FROM Projeto p WHERE p.id = :entityId ORDER BY p.id",

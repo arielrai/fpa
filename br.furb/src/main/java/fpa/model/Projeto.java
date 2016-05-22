@@ -2,6 +2,7 @@ package fpa.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -24,7 +25,6 @@ import fpa.validation.AfterDateValidator;
  */
 @Entity
 @Table(name = "projeto")
-@XmlRootElement
 @AfterDateValidator(getPreviousDateField = "dataInicial", getAfterDateField = "dataFinal")
 public class Projeto implements Serializable {
 
@@ -53,6 +53,8 @@ public class Projeto implements Serializable {
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
 
+	private String valorFormatado;
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -144,4 +146,11 @@ public class Projeto implements Serializable {
 		return result;
 	}
 
+	public void setValorFormatado(String valorFormatado) {
+		this.valorFormatado = valorFormatado;
+	}
+	
+	public String getValorFormatado() {
+		return NumberFormat.getCurrencyInstance().format(this.getValorHora());
+	}
 }

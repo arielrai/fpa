@@ -1,20 +1,18 @@
-var fpa = angular.module('fpa', [ 'ui.router' ]);
-fpa.config(
+var fpa = angular.module('fpa', [ 'ui.router', 'ngTasty' ]);
 
-function myAppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
+fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
 
 	$locationProvider.hashPrefix('fpa');
-
-	$urlRouterProvider.otherwise('login');
+	$urlRouterProvider.otherwise('projeto');
 
 	$stateProvider.state('login', {
 		url : '/login',
 		templateUrl : 'pages/login.html',
 		controller : 'LoginController'
-	}).state('home', {
-		url : '/home',
-		templateUrl : 'pages/home.html',
-		controller : 'HomeController'
+	}).state('projetos', {
+		url : '/projeto',
+		templateUrl : 'pages/table.html',
+		controller : 'TableCtrl'
 	});
 
 	$stateProviderRef = $stateProvider;
