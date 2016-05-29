@@ -2,7 +2,7 @@ angular.module('fpa').controller('ProjetoController',
 		function($scope, $location, $state) {
 
 			$scope.formData = {};
-			$scope.currentPage = 'one';
+			$scope.currentPage = 1;
 
 			$scope.$on('$viewContentLoaded', function() {
 				$state.go("cadastroProjeto." + $scope.currentPage);
@@ -16,8 +16,8 @@ angular.module('fpa').controller('ProjetoController',
 
 			// function to process the form
 			$scope.processForm = function() {
-				alert('awesome!');
-				$scope.formData = event;
+				$scope.currentPage = $scope.currentPage + 1;
+				$state.go("cadastroProjeto." + $scope.currentPage);
 			};
 
 		});

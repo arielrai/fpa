@@ -17,13 +17,13 @@ fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterPro
 		url : '/projeto',
 		templateUrl : 'pages/table.html',
 		controller : 'TableCtrl'
-	}).state('cadastroProjeto.one', {
+	}).state('cadastroProjeto.1', {
         url: '',
         templateUrl: 'pages/wizard/wizard-1.html'
-    }).state('cadastroProjeto.two', {
+    }).state('cadastroProjeto.2', {
         url: '',
         templateUrl: 'pages/wizard/wizard-2.html'
-    }).state('cadastroProjeto.three', {
+    }).state('cadastroProjeto.3', {
         url: '',
         templateUrl: 'pages/wizard/wizard-3.html'
     });
