@@ -27,22 +27,29 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 			List<TableSearchProperty> searchProps, String sortBy, String sortOrder) {
 		//TODO colocar em resources os nomes
 		tableInstance.createHead("nome", "Nome", "text-left");
-		tableInstance.createHead("dtEntrega", "Data Entrega", "text-left");
-		tableInstance.createHead("vlHora", "Valor Hora", "text-right");
+		tableInstance.createHead("dataInicial", "Data Inicial", "text-left");
+		tableInstance.createHead("dataFinal", "Data Entrega", "text-left");
+		tableInstance.createHead("valorFormatado", "Valor Hora", "text-right");
 		
 		//Adiciona as rows
 		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Projeto.class);
 		projetoCriteria.setFirstResult(startPosition);
 		projetoCriteria.setMaxResults(registrosPorPagina);
-		
+
 		//TODO adicionar os filtros
 		if (searchProps != null && searchProps.isEmpty()) {
-			
 		}
-		Order hibernateOrder = TableSortOrder.getHibernateOrder(sortBy, sortOrder);
-		projetoCriteria.addOrder(hibernateOrder);
+		
+		if (sortBy != null && !sortBy.isEmpty()) {
+			Order hibernateOrder = TableSortOrder.getHibernateOrder(sortBy, sortOrder);
+			projetoCriteria.addOrder(hibernateOrder);
+		}
 		
 		tableInstance.setRows(projetoCriteria.list());
 	}
 
+	@Override
+	protected String getTitle() {
+		return "Projetos";
+	}
 }

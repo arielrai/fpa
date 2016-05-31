@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -53,6 +53,7 @@ public class Projeto implements Serializable {
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
 
+	@Transient
 	private String valorFormatado;
 	
 	public Long getId() {

@@ -11,7 +11,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "Faixa_Complexidade")
+@Table(name = "faixa_complexidade")
 public class FaixaComplexidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;

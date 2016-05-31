@@ -218,6 +218,19 @@
 			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.wildfly</groupId>
+		    <artifactId>wildfly-cli</artifactId>
+		    <version>8.2.1.Final</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>jconsole</artifactId>
+		    		<groupId>sun.jdk</groupId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		
 
 	</dependencies>
 
@@ -241,18 +254,19 @@
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${version.wildfly.maven.plugin}</version>
 			</plugin>
-			<plugin>
-				<groupId>org.wildfly.swarm</groupId>
-				<artifactId>wildfly-swarm-plugin</artifactId>
-				<version>1.0.0.Beta7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>package</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!-- 			à ativar novamente -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.wildfly.swarm</groupId> -->
+<!-- 				<artifactId>wildfly-swarm-plugin</artifactId> -->
+<!-- 				<version>1.0.0.Beta7</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<goals> -->
+<!-- 							<goal>package</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 
 		</plugins>
 	</build>

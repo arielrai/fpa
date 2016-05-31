@@ -4,7 +4,6 @@
     Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
-
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
@@ -25,8 +24,12 @@
          data source, this example data source is just for development and testing! -->
       <!-- The datasource is deployed as WEB-INF/br.furb-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/br.furb-ds.xml -->
-      <jta-data-source>java:jboss/datasources/br.furbDS</jta-data-source>
+      <jta-data-source>java:jboss/datasources/fpa</jta-data-source>
       <properties>
+      	<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/fpa" />
+         <property name="javax.persistence.jdbc.user" value="root" />
+         <property name="javax.persistence.jdbc.password" value="root" />
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
          <property name="hibernate.show_sql" value="true" />
