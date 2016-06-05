@@ -2,7 +2,6 @@ package fpa.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 
@@ -16,7 +15,7 @@ import javax.persistence.Version;
 
 import org.hibernate.validator.constraints.Length;
 
-import fpa.util.DateFormatter;
+import fpa.util.DateUtils;
 import fpa.validation.AfterDateValidator;
 
 /**
@@ -153,10 +152,10 @@ public class Projeto implements Serializable, PersistentBean {
 	}
 	
 	public String getDataInicialFormatada() {
-		return DateFormatter.format(dataInicial);
+		return DateUtils.format(dataInicial);
 	}
 	
 	public String getDataFinalFormatada() {
-		return DateFormatter.format(dataFinal);
+		return DateUtils.format(dataFinal);
 	}
 }
