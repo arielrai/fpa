@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class TableBean<T>  {
 
+	private TableViewType viewType;
 	private int page; 
 	private List<T> rows; 
 	private int size; 
@@ -92,4 +93,13 @@ public class TableBean<T>  {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public void setViewType(TableViewType viewType) {
+		this.viewType = viewType;
+	}
+	
+	public TableViewType getViewType() {
+		return viewType;
+	}
+
 }

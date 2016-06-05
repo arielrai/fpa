@@ -14,6 +14,7 @@ import fpa.components.table.AbstractTableService;
 import fpa.components.table.TableBean;
 import fpa.components.table.TableSearchProperty;
 import fpa.components.table.TableSortOrder;
+import fpa.components.table.TableViewType;
 import fpa.model.Projeto;
 
 @Singleton
@@ -27,8 +28,8 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 			List<TableSearchProperty> searchProps, String sortBy, String sortOrder) {
 		//TODO colocar em resources os nomes
 		tableInstance.createHead("nome", "Nome", "text-left");
-		tableInstance.createHead("dataInicial", "Data Inicial", "text-left");
-		tableInstance.createHead("dataFinal", "Data Entrega", "text-left");
+		tableInstance.createHead("dataInicialFormatada", "Data Inicial", "text-left");
+		tableInstance.createHead("dataFinalFormatada", "Data Entrega", "text-left");
 		tableInstance.createHead("valorFormatado", "Valor Hora", "text-right");
 		
 		//Adiciona as rows
@@ -51,5 +52,10 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 	@Override
 	protected String getTitle() {
 		return "Projetos";
+	}
+	
+	@Override
+	protected TableViewType getViewType() {
+		return TableViewType.CADASTRO;
 	}
 }

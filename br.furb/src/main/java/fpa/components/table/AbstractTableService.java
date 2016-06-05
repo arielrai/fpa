@@ -48,4 +48,5 @@ public abstract class AbstractTableService <B> {
 	protected abstract void createTable(TableBean<B> tableInstance, int startPosition, int regPerPage, List<TableSearchProperty> searchProps, String sortBy,
 			String sortOrder);
 
+	protected abstract TableViewType getViewType();
 }

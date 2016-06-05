@@ -1,6 +1,7 @@
 package fpa.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -11,11 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.validator.constraints.Length;
 
+import fpa.util.DateFormatter;
 import fpa.validation.AfterDateValidator;
 
 /**
@@ -26,7 +27,7 @@ import fpa.validation.AfterDateValidator;
 @Entity
 @Table(name = "projeto")
 @AfterDateValidator(getPreviousDateField = "dataInicial", getAfterDateField = "dataFinal")
-public class Projeto implements Serializable {
+public class Projeto implements Serializable, PersistentBean {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,7 +46,7 @@ public class Projeto implements Serializable {
 	private String descricao;
 
 	@Column(name = "vl_hora", nullable = false)
-	private BigInteger valorHora;
+	private BigDecimal valorHora = new BigDecimal(0);
 
 	@Column(name = "dt_inicio")
 	private LocalDate dataInicial;
@@ -53,9 +54,6 @@ public class Projeto implements Serializable {
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
 
-	@Transient
-	private String valorFormatado;
-	
 	public Long getId() {
 		return this.id;
 	}
@@ -113,11 +111,11 @@ public class Projeto implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public BigInteger getValorHora() {
+	public BigDecimal getValorHora() {
 		return valorHora;
 	}
 
-	public void setValorHora(BigInteger valorHora) {
+	public void setValorHora(BigDecimal valorHora) {
 		this.valorHora = valorHora;
 	}
 
@@ -146,12 +144,19 @@ public class Projeto implements Serializable {
 			result += ", descricao: " + descricao;
 		return result;
 	}
-
-	public void setValorFormatado(String valorFormatado) {
-		this.valorFormatado = valorFormatado;
-	}
 	
 	public String getValorFormatado() {
+		if (this.getValorHora() == null) {
+			return "";
+		}
 		return NumberFormat.getCurrencyInstance().format(this.getValorHora());
+	}
+	
+	public String getDataInicialFormatada() {
+		return DateFormatter.format(dataInicial);
+	}
+	
+	public String getDataFinalFormatada() {
+		return DateFormatter.format(dataFinal);
 	}
 }

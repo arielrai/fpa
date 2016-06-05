@@ -1,4 +1,4 @@
-var fpa = angular.module('fpa', [ 'ui.router', 'ngTasty', 'ngAnimate' ]);
+var fpa = angular.module('fpa', [ 'ui.router', 'ngTasty', 'ngAnimate', 'ui.bootstrap','dialogs.main', 'formly', 'ngMask', 'formlyBootstrap']);
 
 fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
 
@@ -17,6 +17,10 @@ fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterPro
 		url : '/projeto',
 		templateUrl : 'pages/table.html',
 		controller : 'TableCtrl'
+	}).state('projetosCadastro', {
+		url : '/projetoCadastro/:id?',
+		templateUrl : 'pages/form.html',
+		controller : 'FormCtrl'
 	}).state('cadastroProjeto.1', {
         url: '',
         templateUrl: 'pages/wizard/wizard-1.html'
