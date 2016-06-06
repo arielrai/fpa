@@ -1,5 +1,7 @@
 angular.module('fpa').controller('ProjetoController',
+
 		function($scope, $location, $state, $stateParams) {
+
 
 			$scope.formData = {};
 			$scope.currentPage = 1;
@@ -18,8 +20,7 @@ angular.module('fpa').controller('ProjetoController',
 			$scope.processForm = function() {
 				$scope.currentPage = $scope.currentPage + 1;
 				$state.go("cadastroProjeto." + $scope.currentPage);
+				//fazer uma requisição para o servidor para solicitar a próxima página
 			};
 			
-			
-
 		});
