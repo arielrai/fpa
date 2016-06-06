@@ -7,8 +7,9 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import fpa.components.projeto.ProjetoForm;
+import fpa.components.projeto.ProjetoDescricaoForm;
 import fpa.components.projeto.ProjetoTable;
+import fpa.components.projeto.ProjetoWizard;
 import fpa.components.table.TableBean;
 import fpa.model.Projeto;
 
@@ -20,11 +21,12 @@ import fpa.model.Projeto;
 @Stateless
 @Path("/projetos")
 public class ProjetoEndpoint 
-			extends AbstractEndPoint<Projeto> 
-//			implements TableEndpoint<Projeto>,FormEndpoint<Projeto>
-{
+			extends AbstractEndPoint<Projeto>{
+	
 	@Inject private ProjetoTable projetoTable;
-	@Inject private ProjetoForm projetoForm;
+	@Inject private ProjetoDescricaoForm projetoForm;
+	@Inject private ProjetoWizard projetoWizard;
+	
 	@PersistenceContext(unitName = "primary")
 	protected EntityManager em;
 
@@ -51,9 +53,18 @@ public class ProjetoEndpoint
 		return Response.ok(projetoForm.getForm(em.find(Projeto.class, id))).build();
 	}
 
-
 	@Override
 	public Response getForm() {
 		return Response.ok(projetoForm.getForm()).build();
+	}
+	
+	@Override
+	public Response getWizard() {
+		return Response.ok(projetoWizard.getParts()).build();
+	}
+	
+	@Override
+	public Response getWizard(Long id) {
+		return Response.ok(projetoWizard.getParts(id)).build();
 	}
 }

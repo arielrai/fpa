@@ -123,6 +123,19 @@ public abstract class AbstractEndPoint<T extends PersistentBean> {
 	public Response getTable(){
 		return Response.serverError().build();
 	};
-
+	
+	@POST
+	@Produces("application/json")
+	@Path("wizard/{id:[0-9][0-9]*}")
+	public Response getWizard(@PathParam("id")Long id){
+		return Response.serverError().build();
+	};
+	
+	@GET
+	@Produces("application/json")
+	@Path("wizard")
+	public Response getWizard(){
+		return Response.serverError().build();
+	};
 	
 }

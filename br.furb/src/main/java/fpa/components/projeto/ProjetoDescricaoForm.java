@@ -10,7 +10,10 @@ import fpa.components.form.FormField;
 import fpa.model.Projeto;
 
 @Singleton
-public class ProjetoForm extends AbstractFormService<Projeto>{
+public class ProjetoDescricaoForm extends AbstractFormService<Projeto>{
+
+	public ProjetoDescricaoForm() {
+	}
 
 	@Override
 	protected Projeto newBean() {
@@ -23,4 +26,8 @@ public class ProjetoForm extends AbstractFormService<Projeto>{
 		return fields;
 	}
 
+	@Override
+	public String getTitle(Projeto entity) {
+		return entity.getId() == null ? "Projeto" : entity.getNome();
+	}
 }

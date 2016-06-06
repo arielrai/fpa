@@ -1,8 +1,26 @@
 'use strict';
 
-angular.module('fpa').run(function(){
-	
-}).controller('LandingPageController',
+angular.module('fpa').run(
+		function(formlyConfig) {
+			formlyConfig.setType({
+				name: 'maskedInput',
+				extends: 'input',
+				template: '<input class="form-control" ng-model="model[options.key]"/>',
+				defaultOptions: {
+					ngModelAttrs: {
+						mask: {
+							attribute: 'ui-mask'
+						},
+						maskPlaceholder: {
+							attribute: 'ui-mask-placeholder'
+						}
+					},
+					templateOptions: {
+						maskPlaceholder: ''
+					}
+				}
+			});
+		}).controller('LandingPageController',
 		function LandingPageController() {
 	
 		});

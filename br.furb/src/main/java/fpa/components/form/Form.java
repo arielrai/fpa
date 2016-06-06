@@ -6,8 +6,9 @@ public class Form<T> {
 	
 	private T pojo;
 	private List<FormField> fields;
+	private String title;
 	
-	public Form(T pojo, List<FormField> fields) {
+	public Form(T pojo, List<FormField> fields, String title) {
 		super();
 		this.pojo = pojo;
 		this.fields = fields;
@@ -21,4 +22,7 @@ public class Form<T> {
 		return fields;
 	}
 
+	public String getTitle() {
+		return title;
+	}
 }

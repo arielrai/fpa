@@ -17,12 +17,16 @@ public abstract class AbstractFormService<T> {
 
 	protected abstract T newBean();
 	
+	public AbstractFormService() {
+	}
+	
 	public Form<T> getForm(){
-		return new Form<T>(newBean(), getFields(new ArrayList<FormField>()));
+		T newBean = newBean();
+		return new Form<T>(newBean, getFields(new ArrayList<FormField>()), getTitle(newBean));
 	}; 
 	
 	public Form<T> getForm(T bean){
-		return new Form<T>(bean, getFields(new ArrayList<FormField>()));
+		return new Form<T>(bean, getFields(new ArrayList<FormField>()), getTitle(bean));
 	}; 
 	
 	protected abstract List<FormField> getFields(ArrayList<FormField> fields);
@@ -54,4 +58,7 @@ public abstract class AbstractFormService<T> {
 	protected EnumField<T> createEnumField(String key, String label, boolean required, T[] options){
 		return new EnumField<T>(key, new FormFieldOptions(null, label, null, required), options);
 	}
+	
+	public abstract String getTitle(T entity);
 }
+
