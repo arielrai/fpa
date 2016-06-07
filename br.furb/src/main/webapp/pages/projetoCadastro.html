@@ -12,15 +12,18 @@
 				<div id="status-buttons" class="text-center">
 					<button class="btn btn-link" ng-click="page = 1"
 						ui-sref-active="active">
-						<span>1 - </span>Descricao
+						<b ng-if="page==1"><span>1 - </span> Descricao</b>
+						<div ng-if="page!=1"><span>1 - </span> Descricao</div>
 					</button>
 					<button class="btn btn-link" ng-click="page = 2"
 						ui-sref-active="active">
-						<span>2 - </span>Complexidade
+						<b ng-if="page==2"><span>2 - </span> Complexidade</b>
+						<div ng-if="page!=2"><span>2 - </span> Complexidade</div>
 					</button>
 					<button class="btn btn-link" ng-click="page = 3"
 						ui-sref-active="active">
-						<span>3 - </span>Resumo
+						<b ng-if="page==3"><span>3 - </span> Resumo</b>
+						<div ng-if="page!=3"><span>3 - </span> Resumo</div>
 					</button>
 				</div>
 			</div>
@@ -32,7 +35,7 @@
 				<div id="form-views" ui-view></div>
 			</form>
 			<div ng-show="page == 1">
-				<form novalidate>
+				<form name="decricao">
 					<formly-form model="form.pojo" fields="form.fields">
 					</formly-form>
 					<a class="btn btn-block btn-info" ng-click="page = 2"> Proximo
@@ -54,6 +57,22 @@
 						</div>
 					</form>
 			</div>
+			<div ng-show="page == 3">
+					{{form.pojo}}
+<!-- 					<form class="form-horizontal"> -->
+<!-- 						<div class="form-group" ng-repeat="complexidade in form.pojo.complexidades"> -->
+<!-- 							<label class="col-sm-4 control-label">{{fatorLabel(complexidade.fatorAjuste)}}</label> -->
+<!-- 							<div class="col-sm-8"> -->
+<!-- 								<select class="form-control" ng-options="item as item.desc for item in form.params.niveis track by item.value" ng-model="complexidade.nivelInfluencia"></select> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 						<div class="form-group" > -->
+<!-- 							<a class="btn btn-block btn-info" ng-click="save(form.pojo)"> Salvar <span class="glyphicon glyphicon-floppy-disk"></span></a> -->
+<!-- 						</div> -->
+<!-- 					</form> -->
+			</div>
+			
 		</div>
 
 	</div>

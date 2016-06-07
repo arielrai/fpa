@@ -1,4 +1,4 @@
-var fpa = angular.module('fpa', [ 'ui.router', 'ngTasty', 'ngAnimate', 'ui.bootstrap','dialogs.main', 'formly', 'ngMask', 'formlyBootstrap']);
+var fpa = angular.module('fpa', [ 'ui.router', 'ngTasty', 'ngAnimate', 'ui.bootstrap','dialogs.main', 'formly', 'ui.mask', 'formlyBootstrap']);
 
 fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
 
