@@ -12,7 +12,7 @@ public class MaskedFieldOptions extends FormFieldOptions {
 	private String mask;
 	
 	public MaskedFieldOptions(String label, String placeHolder, boolean required, String mask) {
-		super(label, placeHolder, "maskedInput", required);
+		super("maskedInput", label, placeHolder, required);
 		this.mask = mask;
 	}
 	

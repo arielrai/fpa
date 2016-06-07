@@ -35,6 +35,10 @@ public abstract class AbstractFormService<T> {
 		return new FormField(key, "input", new FormFieldOptions("text", label, placeHolder, required));
 	}
 	
+	protected FormField createTextArea(String key, String label, String placeHolder, boolean required){
+		return new FormField(key, "textarea", new FormFieldOptions("text", label, placeHolder, required));
+	}
+	
 	protected FormField createNumberField(String key, String label, String placeHolder, boolean required){
 		return new FormField(key, "input", new FormFieldOptions("number", label, placeHolder, required));
 	}
