@@ -20,6 +20,7 @@ angular.module('fpa').run(
 					}
 				}
 			});
+			alert("Se quiser ver meu form vai pelo novo do projeto, kisses!");
 		}).controller('LandingPageController',
 		function LandingPageController() {
 	

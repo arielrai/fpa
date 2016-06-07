@@ -1,18 +1,13 @@
 <!-- form-profile.html -->
-<div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" name="name" ng-model="formData.name" required>
-</div>
-
-<div class="form-group">
-    <label for="email">Email</label>
-    <input type="text" class="form-control" name="email" ng-model="formData.email">
-</div>
+<form ng-submit="save(form.entity)" novalidate>
+	<formly-form model="form.pojo" fields="form.fields">
+		<button type="submit" class="btn btn-primary submit-button">Salvar</button>
+</formly-form>
 
 <div class="form-group row">
-<div class="col-xs-6 col-xs-offset-3">
-    <a ui-sref="form.interests" class="btn btn-block btn-info">
-    Next Section <span class="glyphicon glyphicon-circle-arrow-right"></span>
-    </a>
-</div>
+	<div class="col-xs-6 col-xs-offset-3">
+		<a ui-sref="form.interests" class="btn btn-block btn-info">
+			Proximo <span class="glyphicon glyphicon-circle-arrow-right"></span>
+		</a>
+	</div>
 </div>

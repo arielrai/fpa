@@ -1,7 +1,9 @@
 package fpa.components.form;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fpa.components.form.enum_.EnumField;
 import fpa.components.form.masked.MaskedField;
@@ -17,16 +19,20 @@ public abstract class AbstractFormService<T> {
 
 	protected abstract T newBean();
 	
+	protected Map<String, Object> params(){
+		return new HashMap<>();
+	}
+	
 	public AbstractFormService() {
 	}
 	
 	public Form<T> getForm(){
 		T newBean = newBean();
-		return new Form<T>(newBean, getFields(new ArrayList<FormField>()), getTitle(newBean));
+		return new Form<T>(newBean, getFields(new ArrayList<FormField>()), getTitle(newBean), params());
 	}; 
 	
 	public Form<T> getForm(T bean){
-		return new Form<T>(bean, getFields(new ArrayList<FormField>()), getTitle(bean));
+		return new Form<T>(bean, getFields(new ArrayList<FormField>()), getTitle(bean), params());
 	}; 
 	
 	protected abstract List<FormField> getFields(ArrayList<FormField> fields);

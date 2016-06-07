@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -20,6 +25,7 @@ import fpa.validation.AfterDateValidator;
 
 /**
  * Represent a Project
+ * 
  * @author arielrai (arielrairodrigues@gmail.com)
  *
  */
@@ -37,11 +43,11 @@ public class Projeto implements Serializable, PersistentBean {
 	private int version;
 
 	@Column(name = "nm_projeto", nullable = false)
-	@Length(min=5)
+	@Length(min = 5)
 	private String nome;
 
 	@Column(length = 4000, name = "ds_projeto")
-	@Length(max=4000)
+	@Length(max = 4000)
 	private String descricao;
 
 	@Column(name = "vl_hora", nullable = false)
@@ -52,6 +58,9 @@ public class Projeto implements Serializable, PersistentBean {
 
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
 
 	public Long getId() {
 		return this.id;
@@ -143,19 +152,27 @@ public class Projeto implements Serializable, PersistentBean {
 			result += ", descricao: " + descricao;
 		return result;
 	}
-	
+
 	public String getValorFormatado() {
 		if (this.getValorHora() == null) {
 			return "";
 		}
 		return NumberFormat.getCurrencyInstance().format(this.getValorHora());
 	}
-	
+
 	public String getDataInicialFormatada() {
 		return DateUtils.format(dataInicial);
 	}
-	
+
 	public String getDataFinalFormatada() {
 		return DateUtils.format(dataFinal);
+	}
+
+	public List<ProjetoComplexidade> getComplexidades() {
+		return this.complexidades;
+	}
+
+	public void setComplexidades(final List<ProjetoComplexidade> complexidades) {
+		this.complexidades = complexidades;
 	}
 }

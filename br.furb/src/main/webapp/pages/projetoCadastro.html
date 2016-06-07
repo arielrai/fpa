@@ -1,38 +1,60 @@
 <!-- form.html -->
 <div class="row">
-<div class="col-sm-8 col-sm-offset-2">
+	<div class="col-sm-8 col-sm-offset-2">
 
-    <div id="form-container" ng-view>
+		<div id="form-container" ng-view>
 
-        <div class="page-header text-center">
-            <h2	>Cadastro de Projeto</h2>
-            
-            <!-- the links to our nested states using relative paths -->
-            <!-- add the active class if the state matches our ui-sref -->
-            <div id="status-buttons" class="text-center">
-                <button class="btn btn-link" ng-click="onClick(1)" ui-sref-active="active"><span>1 - </span>Descricao</button>
-                <button class="btn btn-link" ng-click="onClick(2)" ui-sref-active="active"><span>2 - </span> Nao Sei</button>
-                <button class="btn btn-link" ng-click="onClick(3)" ui-sref-active="active"><span>3 - </span> Complexidade</button>
-            </div>
-        </div>
-        
-        <!-- use ng-submit to catch the form submission and use our Angular function -->
-        <form id="signup-form" ng-click="processForm()">
+			<div class="page-header text-center">
+				<h2>Cadastro de Projeto</h2>
 
-            <!-- our nested state views will be injected here -->
-            <div id="form-views" ui-view></div>
-        </form>
+				<!-- the links to our nested states using relative paths -->
+				<!-- add the active class if the state matches our ui-sref -->
+				<div id="status-buttons" class="text-center">
+					<button class="btn btn-link" ng-click="page = 1"
+						ui-sref-active="active">
+						<span>1 - </span>Descricao
+					</button>
+					<button class="btn btn-link" ng-click="page = 2"
+						ui-sref-active="active">
+						<span>2 - </span>Complexidade
+					</button>
+					<button class="btn btn-link" ng-click="page = 3"
+						ui-sref-active="active">
+						<span>3 - </span>Resumo
+					</button>
+				</div>
+			</div>
 
-    </div>
+			<!-- use ng-submit to catch the form submission and use our Angular function -->
+			<form id="signup-form" ng-click="processForm()">
 
-    <!-- show our formData as it is being typed -->
-    <pre>
-        {{ currentPage }}
-    </pre>
+				<!-- our nested state views will be injected here -->
+				<div id="form-views" ui-view></div>
+			</form>
+			<div ng-show="page == 1">
+				<form novalidate>
+					<formly-form model="form.pojo" fields="form.fields">
+					</formly-form>
+					<a class="btn btn-block btn-info" ng-click="page = 2"> Proximo
+						<span class="glyphicon glyphicon-circle-arrow-right"></span>
+					</a>
+				</form>
+			</div>
+			<div ng-show="page == 2">
+					<form class="form-horizontal">
+						<div class="form-group" ng-repeat="complexidade in form.pojo.complexidades">
+							<label class="col-sm-4 control-label">{{fatorLabel(complexidade.fatorAjuste)}}</label>
+							<div class="col-sm-8">
+								<select class="form-control" ng-options="item as item.desc for item in form.params.niveis track by item.value" ng-model="complexidade.nivelInfluencia"></select>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group" >
+							<a class="btn btn-block btn-info" ng-click="page = 3"> Proximo <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+						</div>
+					</form>
+			</div>
+		</div>
 
-
+	</div>
 </div>
-</div>
-<!-- quantas etapas 
-titulo da etapa
-pra onde vai requisitar o form -->
