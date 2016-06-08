@@ -1,12 +1,16 @@
 package fpa.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -24,17 +28,26 @@ public class FaixaComplexidade implements Serializable {
 	@Column(name = "version")
 	private int version;
 
+	@Column(name = "nm_faixa", nullable = false)
+	private String nome;
+	
 	@Column(name = "ds_faixa", nullable = false)
 	private String descricao;
-
-	@Column(name = "qt_de", nullable = false)
-	private int quantidadeDe;
-
-	@Column(name = "qt_ate", nullable = false)
-	private int quantidadeAte;
+	
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, 
+			targetEntity=FaixaComplexidadeIntervalo.class, orphanRemoval=true)
+    private List<FaixaComplexidadeIntervalo> intervaloDados;
 
 	public Long getId() {
 		return this.id;
+	}
+	
+	public List<FaixaComplexidadeIntervalo> getIntervaloDados() {
+		return intervaloDados;
+	}
+
+	public void setIntervaloDados(List<FaixaComplexidadeIntervalo> intervaloDados) {
+		this.intervaloDados = intervaloDados;
 	}
 
 	public void setId(final Long id) {
@@ -57,22 +70,14 @@ public class FaixaComplexidade implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public int getQuantidadeDe() {
-		return quantidadeDe;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-
-	public void setQuantidadeDe(int quantidadeDe) {
-		this.quantidadeDe = quantidadeDe;
+	
+	public String getNome() {
+		return nome;
 	}
-
-	public int getQuantidadeAte() {
-		return quantidadeAte;
-	}
-
-	public void setQuantidadeAte(int quantidadeAte) {
-		this.quantidadeAte = quantidadeAte;
-	}
-
+	
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
