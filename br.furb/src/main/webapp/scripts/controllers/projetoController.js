@@ -25,13 +25,47 @@ function($scope, $location, $state, $stateParams, $requestService) {
 	
 	if (!!$stateParams.id) {
 		$requestService.post("projetos/form/" + $stateParams.id, function(response){
-			$scope.formDesc = response.data;
+			$scope.form = response.data;
+			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
+				if (angular.isDefined($scope.formValid)) {
+					$scope.formValid = $scope.isAllFieldValid();
+				}else{
+					$scope.formValid = false;
+				}
+			}, true);
 		});
 	}else{
 		$requestService.get("projetos/form", function(response){
-			console.log(response);
 			$scope.form = response.data;
+			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
+				if (angular.isDefined($scope.formValid)) {
+					$scope.formValid = $scope.isAllFieldValid();
+				}else{
+					$scope.formValid = false;
+				}
+			}, true);
 		});
 	}
+	
+	$scope.isAllFieldValid = function(){
+		if (angular.isDefined($scope.form.fields)) {
+			for (field in $scope.form.fields) {
+				if (!!$scope.form.fields[field].formControl && $scope.form.fields[field].formControl.$invalid) {
+					return false;
+				}
+			}
+			return true;
+		}else{
+			return false;
+		}
+	} 
+	
+	$scope.formataValor = function(value){
+		value = value + "";
+		var afterComma = value.substring(value.length-2, value.length);
+		var beforeComma = value.substr(0, value.length-2).replace(/^0+/, '');
+		return "R$ " + beforeComma +","+ afterComma;
+	}
+	
 	
 });
