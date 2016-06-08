@@ -1,35 +1,67 @@
 <!-- form.html -->
 <div class="row">
-<div class="col-sm-8 col-sm-offset-2">
+	<div class="col-sm-8 col-sm-offset-2">
 
-    <div id="form-container" ng-view>
+		<div id="form-container" ng-view>
 
-        <div class="page-header text-center">
-            <h2	>Cadastro de Projeto</h2>
-            
-            <!-- the links to our nested states using relative paths -->
-            <!-- add the active class if the state matches our ui-sref -->
-            <div id="status-buttons" class="text-center">
-                <button class="btn btn-link" ng-click="onClick('one')" ui-sref-active="active"><span>1</span> Profile</button>
-                <button class="btn btn-link" ng-click="onClick('two')" ui-sref-active="active"><span>2</span> Interests</button>
-                <button class="btn btn-link" ng-click="onClick('three')" ui-sref-active="active"><span>3</span> Payment</button>
-            </div>
-        </div>
-        
-        <!-- use ng-submit to catch the form submission and use our Angular function -->
-        <form id="signup-form" ng-submit="processForm()">
+			<div class="page-header text-center">
+				<h2>Cadastro de Projeto</h2>
 
-            <!-- our nested state views will be injected here -->
-            <div id="form-views" ui-view></div>
-        </form>
+				<!-- the links to our nested states using relative paths -->
+				<!-- add the active class if the state matches our ui-sref -->
+				<div id="status-buttons" class="text-center">
+					<button class="btn btn-link" ng-click="page = 1" ui-sref-active="active">
+						<b ng-if="page==1"><span>1 - </span> Descricao</b>
+						<div ng-if="page!=1"><span>1 - </span> Descricao</div>
+					</button>
+					<button class="btn btn-link" ng-click="page = 2" ui-sref-active="active">
+						<b ng-if="page==2"><span>2 - </span> Complexidade</b>
+						<div ng-if="page!=2"><span>2 - </span> Complexidade</div>
+					</button>
+					<button class="btn btn-link" ng-click="page = 3" ui-sref-active="active">
+						<b ng-if="page==3"><span>3 - </span> Resumo</b>
+						<div ng-if="page!=3"><span>3 - </span> Resumo</div>
+					</button>
+				</div>
+			</div>
+			<div ng-show="page == 1">
+				<form name="form">
+					<formly-form model="form.pojo" fields="form.fields" form="form">
+					</formly-form>
+					<a class="btn btn-block btn-info" ng-click="page = 2"> Proximo
+						<span class="glyphicon glyphicon-circle-arrow-right"></span>
+					</a>
+				</form>
+			</div>
+			<div ng-show="page == 2">
+					<form class="form-horizontal">
+						<div class="form-group" ng-repeat="complexidade in form.pojo.complexidades">
+							<label class="col-sm-4 control-label">{{fatorLabel(complexidade.fatorAjuste)}}</label>
+							<div class="col-sm-8">
+								<select class="form-control" ng-options="opt.value as opt.desc for opt in form.params.niveis" ng-model="complexidade.nivelInfluencia"></select>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group" >
+							<a class="btn btn-block btn-info" ng-click="page = 3"> Proximo <span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+						</div>
+					</form>
+			</div>
+			<div ng-show="page == 3" >
+				<div class="text-center">
+					<h4 ng-if="!formValid"><span class="label label-danger">Ops, existem campos obrigatorios nao preenchidos!</span></h4>
+				</div>
+				<hr class="separator">
+				<div class="text-center">
+					<h3><span>Dados do projeto</span></h3>
+					<h4><span class="label label-default">{{form.pojo.nome}}</span></h4>
+					<div class="row"><p>{{form.pojo.descricao}}</div>
+					<h4><span class="label label-primary">Valor da hora:</span> {{formataValor(form.pojo.valorHora)}}</h4>
+				</div>				
+				<button ng-disabled="!formValid" class="btn btn-block btn-info" ng-click="page = 3"> Salvar <span class="glyphicon glyphicon-circle-floppy-disk"></span></button>	
+			</div>
+			
+		</div>
 
-    </div>
-
-    <!-- show our formData as it is being typed -->
-    <pre>
-        {{ currentPage }}
-    </pre>
-
-
-</div>
+	</div>
 </div>

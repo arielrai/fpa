@@ -23,7 +23,7 @@ public abstract class AbstractTableService <B> {
 	public TableBean<B> createTable(int page, int countPerPage, String sortBy, String sortOrder, List<TableSearchProperty> searchProps){
 		try {
 			TableBean<B> tableInstance = new TableBean<B>();
-			tableInstance.create(page); 
+			tableInstance.create(page, getTitle()); 
 			createTable(tableInstance, page*countPerPage, countPerPage, searchProps, sortBy, sortOrder);
 			return tableInstance;
 		} catch (Exception e) {
@@ -31,6 +31,12 @@ public abstract class AbstractTableService <B> {
 		}
 	}
 
+	/**
+	 * Título da tabela
+	 * @return um {@link String} com o título da tabela
+	 */
+	protected abstract String getTitle();
+	
 	/**
 	 * Cria os dados da tabela
 	 * @param tableInstance - bean que será adicionado os dados
@@ -42,4 +48,5 @@ public abstract class AbstractTableService <B> {
 	protected abstract void createTable(TableBean<B> tableInstance, int startPosition, int regPerPage, List<TableSearchProperty> searchProps, String sortBy,
 			String sortOrder);
 
+	protected abstract TableViewType getViewType();
 }

@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class TableBean<T>  {
 
+	private TableViewType viewType;
 	private int page; 
 	private List<T> rows; 
 	private int size; 
@@ -19,9 +20,11 @@ public class TableBean<T>  {
 	private TablePagination pagination;
 	private String sortBy;
 	private String sortOrder;
+	private String title;
 	
-	public TableBean<T> create(int page){
+	public TableBean<T> create(int page, String title){
 		this.page = page;
+		this.title = title;
 		return this;
 	};
 
@@ -82,4 +85,21 @@ public class TableBean<T>  {
 	public String getSortOrder() {
 		return sortOrder;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public void setViewType(TableViewType viewType) {
+		this.viewType = viewType;
+	}
+	
+	public TableViewType getViewType() {
+		return viewType;
+	}
+
 }

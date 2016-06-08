@@ -16,4 +16,6 @@
 --
 
 -- You can use this file to load seed data into the database using SQL statements
-insert into Member (id, name, email, phone_number) values (0, 'John Smith', 'john.smith@mailinator.com', '2125551212') 
+-- insert into projeto values (1, '2015-10-10', '2016-10-10', 'Descrição', 'Nome', 3.00, 1 );
+-- insert into projeto values (2, '2015-10-10', '2016-10-10', 'Descrição2', 'Nome2', 50.00, 1 );
+-- insert into projeto values (3, '2015-10-10', '2016-10-10', 'Descrição3', 'Nome3', 50.00, 1 );

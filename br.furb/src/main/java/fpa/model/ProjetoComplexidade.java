@@ -4,34 +4,35 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-@Entity
-@Table(name = "faixa_complexidade")
-public class FaixaComplexidade implements Serializable {
+import fpa.model.domain.FatorAjuste;
+import fpa.model.domain.NivelInfluencia;
 
-	private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "projeto_complexidade")
+public class ProjetoComplexidade implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
-
 	@Version
 	@Column(name = "version")
 	private int version;
 
-	@Column(name = "ds_faixa", nullable = false)
-	private String descricao;
+	@Enumerated
+	@Column(name = "nr_nivel_influencia", nullable = false)
+	private NivelInfluencia nivelInfluencia;
 
-	@Column(name = "qt_de", nullable = false)
-	private int quantidadeDe;
-
-	@Column(name = "qt_ate", nullable = false)
-	private int quantidadeAte;
+	@Enumerated
+	@Column(name = "nr_fator_ajuste", nullable = false)
+	private FatorAjuste fatorAjuste;
 
 	public Long getId() {
 		return this.id;
@@ -49,47 +50,15 @@ public class FaixaComplexidade implements Serializable {
 		this.version = version;
 	}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public int getQuantidadeDe() {
-		return quantidadeDe;
-	}
-
-	public void setQuantidadeDe(int quantidadeDe) {
-		this.quantidadeDe = quantidadeDe;
-	}
-
-	public int getQuantidadeAte() {
-		return quantidadeAte;
-	}
-
-	public void setQuantidadeAte(int quantidadeAte) {
-		this.quantidadeAte = quantidadeAte;
-	}
-
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (id != null)
-			result += "id: " + id;
-		return result;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof FaixaComplexidade)) {
+		if (!(obj instanceof ProjetoComplexidade)) {
 			return false;
 		}
-		FaixaComplexidade other = (FaixaComplexidade) obj;
+		ProjetoComplexidade other = (ProjetoComplexidade) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
@@ -104,5 +73,21 @@ public class FaixaComplexidade implements Serializable {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+
+	public NivelInfluencia getNivelInfluencia() {
+		return nivelInfluencia;
+	}
+
+	public void setNivelInfluencia(NivelInfluencia nivelInfluencia) {
+		this.nivelInfluencia = nivelInfluencia;
+	}
+
+	public FatorAjuste getFatorAjuste() {
+		return fatorAjuste;
+	}
+
+	public void setFatorAjuste(FatorAjuste fatorAjuste) {
+		this.fatorAjuste = fatorAjuste;
 	}
 }

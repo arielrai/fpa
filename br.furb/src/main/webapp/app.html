@@ -1,4 +1,4 @@
-f<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" ng-app="fpa">
 <head>
 <meta charset="UTF-8">
@@ -8,6 +8,7 @@ f<!DOCTYPE html>
 <link href="styles/bootstrap-theme.css" rel="stylesheet" media="screen">
 <link href="styles/main.css" rel="stylesheet" media="screen">
 <link href="styles/animate.min.css" rel="stylesheet" type="text/css"/>
+<!-- <link href="styles/dialogs.css" rel="stylesheet" type="text/css"/> -->
 
 </head>
 <body>
@@ -24,15 +25,14 @@ f<!DOCTYPE html>
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">FPA</a>
+						<a class="navbar-brand" ui-sref="projetos">FPA</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse"
 						id="bs-example-navbar-collapse-1"><!-- ng-if="usuario"> -->
 						<ul class="nav navbar-nav">
-							<li><a href="#">Página 1</a></li>
-							<li><a href="#">Página 2</a></li>
+							<li><a ui-sref="projetos">Projetos</a></li>
 							<li><a href="#">Página 3</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
@@ -47,8 +47,7 @@ f<!DOCTYPE html>
 	</div><!-- Header -->
 
 	<div id="wrap">
-
-		<div class="container">
+		<div class="container"> 
 			<div class="row row-offcanvas row-offcanvas-left">
 
 				<!-- main area-->
@@ -75,6 +74,16 @@ f<!DOCTYPE html>
 	<script src="scripts/vendor/angular-ui-router.min.js"></script>
 	<script src="scripts/vendor/ng-tasty-tpls.js"></script>
 	<script src="scripts/vendor/angular-animate.min.js"></script>
+	<script src="scripts/vendor/api-check.js"></script>
+	
+	<script src="scripts/vendor/formly.js"></script>
+	<script src="scripts/vendor/angular-formly-templates-bootstrap.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-mask/1.8.4/mask.js">	</script>
+	
+	<script src="scripts/vendor/angular-sanitize.js"></script>
+	<script src="scripts/vendor/bootstrap-tpls.js"></script>
+	<script src="scripts/vendor/dialog/dialogs.js"></script>
+	<script src="scripts/vendor/dialog/dialogs-default-translations.js"></script>
 
 	<script src="scripts/routes.js"></script>
 	<script src="scripts/app.js"></script>
@@ -93,8 +102,9 @@ f<!DOCTYPE html>
 	<script src="scripts/filters/genericSearchFilter.js"></script>
 
 	<script src="scripts/controllers/tableController.js"></script>
+	<script src="scripts/controllers/formController.js"></script>
 	<script src="scripts/controllers/flashController.js"></script>
-	<script src="scripts/controllers/newProjetoController.js"></script>
+	<script src="scripts/controllers/projetoController.js"></script>
 	<script src="scripts/controllers/searchProjetoController.js"></script>
 	<script src="scripts/controllers/editProjetoController.js"></script>
 	<script src="scripts/controllers/navController.js"></script>

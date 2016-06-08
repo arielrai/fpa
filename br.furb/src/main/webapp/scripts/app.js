@@ -1,6 +1,26 @@
 'use strict';
 
-angular.module('fpa').controller('LandingPageController',
+angular.module('fpa').run(
+		function(formlyConfig) {
+			formlyConfig.setType({
+				name: 'maskedInput',
+				extends: 'input',
+				template: '<input class="form-control" ng-model="model[options.key]"/>',
+				defaultOptions: {
+					ngModelAttrs: {
+						mask: {
+							attribute: 'ui-mask'
+						},
+						maskPlaceholder: {
+							attribute: 'ui-mask-placeholder'
+						}
+					},
+					templateOptions: {
+						maskPlaceholder: ''
+					}
+				}
+			});
+		}).controller('LandingPageController',
 		function LandingPageController() {
 	
 		});
@@ -26,7 +46,9 @@ angular
 										if (angular.equals(data.status, 401)) {
 											$state.go("login");
 										} else {
-											errorFunction(data, data.status);
+											if (!!errorFunction) {
+												errorFunction(data, data.status);
+											}
 										}
 									}, function(value) {
 										// notify?
@@ -39,14 +61,38 @@ angular
 									angular.isDefined(paramsObj) ? angular
 											.toJson(paramsObj) : paramsObj)
 									.then(function(d) {
-										if (doneFunction != null) {
+										if (!!doneFunction) {
 											return doneFunction(d);
 										}
 									}, function(data) {
 										if (angular.equals(data.status, 401)) {
 											$state.go("login");
 										} else {
-											errorFunction(data, data.status);
+											if (!!errorFunction) {
+												errorFunction(data, data.status);
+											}
+										}
+									}, function(value) {
+										// notify?
+									});
+						},
+						delete : function(url, doneFunction, errorFunction,
+								paramsObj) {
+							return $http.delete(
+									baseUrl.concat(url),
+									angular.isDefined(paramsObj) ? angular
+											.toJson(paramsObj) : paramsObj)
+									.then(function(d) {
+										if (!!doneFunction) {
+											return doneFunction(d);
+										}
+									}, function(data) {
+										if (angular.equals(data.status, 401)) {
+											$state.go("login");
+										} else {
+											if (!!errorFunction) {
+												errorFunction(data, data.status);
+											}
 										}
 									}, function(value) {
 										// notify?

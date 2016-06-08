@@ -1,141 +1,70 @@
 package fpa.rest;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
 
-import org.hibernate.Criteria;
-
+import fpa.components.projeto.ProjetoDescricaoForm;
 import fpa.components.projeto.ProjetoTable;
+import fpa.components.projeto.ProjetoWizard;
 import fpa.components.table.TableBean;
 import fpa.model.Projeto;
 
 /**
  * 
+ * @author Ariel Rai Rodrigues (ariel.rai.rodrigues@gmail.com)
+ *
  */
 @Stateless
 @Path("/projetos")
-public class ProjetoEndpoint {
-	@PersistenceContext(unitName = "primary")
-	private EntityManager em;
-	@Inject private ProjetoTable projetoTable;
+public class ProjetoEndpoint 
+			extends AbstractEndPoint<Projeto>{
 	
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	@Path("table")
+	@Inject private ProjetoTable projetoTable;
+	@Inject private ProjetoDescricaoForm projetoForm;
+	@Inject private ProjetoWizard projetoWizard;
+	
+	@PersistenceContext(unitName = "primary")
+	protected EntityManager em;
+
+	@Override
+	public Class<Projeto> getClazz() {
+		return Projeto.class;
+	}
+	
+	
+	@Override
 	public Response getTable(TableBean<Projeto> entity) {
 		return Response.ok(projetoTable.createTable(entity.getPagination().getPage(), 
 				entity.getPagination().getCountPerPage(), entity.getSortBy(), entity.getSortOrder(), null)).build();
 	}
 	
-	@GET
-	@Produces("application/json")
-	@Path("table")
+	@Override
 	public Response getTable() {
 		return Response.ok(projetoTable.createTable(0, 20, "nome", "desc", null)).build();
 	}
+
+
+	@Override
+	public Response getForm(Long id) {
+		return Response.ok(projetoForm.getForm(em.find(Projeto.class, id))).build();
+	}
+
+	@Override
+	public Response getForm() {
+		return Response.ok(projetoForm.getForm()).build();
+	}
 	
-	@POST
-	@Consumes("application/json")
-	public Response create(Projeto entity) {
-		em.persist(entity);
-		return Response.created(
-				UriBuilder.fromResource(ProjetoEndpoint.class)
-						.path(String.valueOf(entity.getId())).build()).build();
+	@Override
+	public Response getWizard() {
+		return Response.ok(projetoWizard.getParts()).build();
 	}
-
-	@DELETE
-	@Path("/{id:[0-9][0-9]*}")
-	public Response deleteById(@PathParam("id") Long id) {
-		Projeto entity = em.find(Projeto.class, id);
-		if (entity == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		em.remove(entity);
-		return Response.noContent().build();
-	}
-
-	@GET
-	@Path("/{id:[0-9][0-9]*}")
-	@Produces("application/json")
-	public Response findById(@PathParam("id") Long id) {
-		Criteria createCriteria = em.unwrap(org.hibernate.Session.class).createCriteria(Projeto.class);
-		TypedQuery<Projeto> findByIdQuery = em
-				.createQuery(
-						"SELECT DISTINCT p FROM Projeto p WHERE p.id = :entityId ORDER BY p.id",
-						Projeto.class);
-		findByIdQuery.setParameter("entityId", id);
-		Projeto entity;
-		try {
-			entity = findByIdQuery.getSingleResult();
-		} catch (NoResultException nre) {
-			entity = null;
-		}
-		if (entity == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		return Response.ok(entity).build();
-	}
-
-	@GET
-	@Produces("application/json")
-	public List<Projeto> listAll(@QueryParam("start") Integer startPosition,
-			@QueryParam("max") Integer maxResult) {
-		TypedQuery<Projeto> findAllQuery = em
-				.createQuery("SELECT DISTINCT p FROM Projeto p ORDER BY p.id",
-						Projeto.class);
-		if (startPosition != null) {
-			findAllQuery.setFirstResult(startPosition);
-		}
-		if (maxResult != null) {
-			findAllQuery.setMaxResults(maxResult);
-		}
-		final List<Projeto> results = findAllQuery.getResultList();
-		return results;
-	}
-
-	@PUT
-	@Path("/{id:[0-9][0-9]*}")
-	@Consumes("application/json")
-	public Response update(@PathParam("id") Long id, Projeto entity) {
-		if (entity == null) {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-		if (id == null) {
-			return Response.status(Status.BAD_REQUEST).build();
-		}
-		if (!id.equals(entity.getId())) {
-			return Response.status(Status.CONFLICT).entity(entity).build();
-		}
-		if (em.find(Projeto.class, id) == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		try {
-			entity = em.merge(entity);
-		} catch (OptimisticLockException e) {
-			return Response.status(Response.Status.CONFLICT)
-					.entity(e.getEntity()).build();
-		}
-
-		return Response.noContent().build();
+	
+	@Override
+	public Response getWizard(Long id) {
+		return Response.ok(projetoWizard.getParts(id)).build();
 	}
 }

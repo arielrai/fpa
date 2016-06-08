@@ -1,32 +1,38 @@
 package fpa.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Length;
 
+import fpa.util.DateUtils;
 import fpa.validation.AfterDateValidator;
 
 /**
  * Represent a Project
+ * 
  * @author arielrai (arielrairodrigues@gmail.com)
  *
  */
 @Entity
 @Table(name = "projeto")
 @AfterDateValidator(getPreviousDateField = "dataInicial", getAfterDateField = "dataFinal")
-public class Projeto implements Serializable {
+public class Projeto implements Serializable, PersistentBean {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,15 +43,15 @@ public class Projeto implements Serializable {
 	private int version;
 
 	@Column(name = "nm_projeto", nullable = false)
-	@Length(min=5)
+	@Length(min = 5)
 	private String nome;
 
 	@Column(length = 4000, name = "ds_projeto")
-	@Length(max=4000)
+	@Length(max = 4000)
 	private String descricao;
 
 	@Column(name = "vl_hora", nullable = false)
-	private BigInteger valorHora;
+	private BigDecimal valorHora = new BigDecimal(0);
 
 	@Column(name = "dt_inicio")
 	private LocalDate dataInicial;
@@ -53,8 +59,9 @@ public class Projeto implements Serializable {
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
 
-	private String valorFormatado;
-	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
+
 	public Long getId() {
 		return this.id;
 	}
@@ -112,11 +119,11 @@ public class Projeto implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public BigInteger getValorHora() {
+	public BigDecimal getValorHora() {
 		return valorHora;
 	}
 
-	public void setValorHora(BigInteger valorHora) {
+	public void setValorHora(BigDecimal valorHora) {
 		this.valorHora = valorHora;
 	}
 
@@ -146,11 +153,26 @@ public class Projeto implements Serializable {
 		return result;
 	}
 
-	public void setValorFormatado(String valorFormatado) {
-		this.valorFormatado = valorFormatado;
-	}
-	
 	public String getValorFormatado() {
+		if (this.getValorHora() == null) {
+			return "";
+		}
 		return NumberFormat.getCurrencyInstance().format(this.getValorHora());
+	}
+
+	public String getDataInicialFormatada() {
+		return DateUtils.format(dataInicial);
+	}
+
+	public String getDataFinalFormatada() {
+		return DateUtils.format(dataFinal);
+	}
+
+	public List<ProjetoComplexidade> getComplexidades() {
+		return this.complexidades;
+	}
+
+	public void setComplexidades(final List<ProjetoComplexidade> complexidades) {
+		this.complexidades = complexidades;
 	}
 }
