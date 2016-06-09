@@ -35,15 +35,23 @@ public class StartupBean {
 		List list = em.unwrap(Session.class).createCriteria(FaixaComplexidade.class).setMaxResults(1)
 				.setProjection(projectionList).list();
 		if (list.isEmpty()) {
+			FaixaComplexidade faixaComplexidadeALI = new FaixaComplexidade();
+			faixaComplexidadeALI.setDescricao("Tabela ALI AIE");
+			faixaComplexidadeALI.setNome("Tabela ALI AIE");
 			
+			FaixaComplexidade faixaComplexidadeSE = new FaixaComplexidade();
+			faixaComplexidadeSE.setDescricao("Tabela SE CE");
+			faixaComplexidadeSE.setNome("Tabela SE CE");
 			
-			List<FaixaComplexidadeIntervalo> faixasComplexidadeIntervalo = new ArrayList<>();
+			FaixaComplexidade faixaComplexidadeEE = new FaixaComplexidade();
+			faixaComplexidadeEE.setDescricao("Tabela EE");
+			faixaComplexidadeEE.setNome("Tabela EE");
 			
-			carregaDados(faixasComplexidadeIntervalo);
+			carregaDados(faixaComplexidadeALI, faixaComplexidadeSE, faixaComplexidadeEE);
 
-			for (FaixaComplexidadeIntervalo faixaComplexidadeIntervalo : faixasComplexidadeIntervalo) {
-				em.persist(faixaComplexidadeIntervalo);
-			}
+			em.persist(faixaComplexidadeALI);
+			em.persist(faixaComplexidadeSE);
+			em.persist(faixaComplexidadeEE);
 			
 		}
 	}
@@ -53,46 +61,51 @@ public class StartupBean {
 
 	}
 	
-	private List<FaixaComplexidade> carregaDados(List<FaixaComplexidadeIntervalo>faixasComplexidadeIntervalo){
+	private void carregaDados(FaixaComplexidade faixaComplexidadeALI, FaixaComplexidade faixaComplexidadeSE, FaixaComplexidade faixaComplexidadeEE){
 		
-		List<FaixaComplexidade> faixaDeComplexidade = new ArrayList<>();
+		List<FaixaComplexidadeIntervalo> faixasComplexidadeIntervaloALI = new ArrayList<>();
 		
 		//ALI AIE
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       0,      19,      OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       20,     49,      OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       50,     99999,   OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  5,       0,      19,      OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  5,       20,     49,      OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  5,       50,     99999,   OrdemComplexidade.ALTA    ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(5,  9999,    0,      19,      OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(5,  9999,    20,     49,      OrdemComplexidade.ALTA    ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(5,  9999,    50,     99999,   OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(0,  1,       0,      19,      OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(0,  1,       20,     49,      OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(0,  1,       50,     99999,   OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(2,  5,       0,      19,      OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(2,  5,       20,     49,      OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(2,  5,       50,     99999,   OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(5,  9999,    0,      19,      OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(5,  9999,    20,     49,      OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloALI.add(inserirLinhaColuna(5,  9999,    50,     99999,   OrdemComplexidade.ALTA    ));
+		
+		faixaComplexidadeALI.setIntervaloDados(faixasComplexidadeIntervaloALI);
+		List<FaixaComplexidadeIntervalo> faixasComplexidadeIntervaloSE = new ArrayList<>();
 
 		//SE CE
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       0,      5,       OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       6,      18,      OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       19,     9999,    OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  3,       0,      5,       OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  3,       6,      18,      OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  3,       19,     9999,    OrdemComplexidade.ALTA    ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(4,  9999,    0,      5,       OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(4,  9999,    6,      18,      OrdemComplexidade.ALTA    ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(4,  9999,    19,     9999,    OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(0,  1,       0,      5,       OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(0,  1,       6,      18,      OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(0,  1,       19,     9999,    OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(2,  3,       0,      5,       OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(2,  3,       6,      18,      OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(2,  3,       19,     9999,    OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(4,  9999,    0,      5,       OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(4,  9999,    6,      18,      OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloSE.add(inserirLinhaColuna(4,  9999,    19,     9999,    OrdemComplexidade.ALTA    ));
 
+		faixaComplexidadeSE.setIntervaloDados(faixasComplexidadeIntervaloSE);
+		List<FaixaComplexidadeIntervalo> faixasComplexidadeIntervaloEE = new ArrayList<>();
 
 		//EE
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       0,      4,       OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       5,      14,      OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(0,  1,       15,     99999,   OrdemComplexidade. MEDIA  ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  2,       0,      4,       OrdemComplexidade.BAIXA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  2,       5,      14,      OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(2,  2,       15,     99999,   OrdemComplexidade. ALTA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(3,  9999,    0,      4,       OrdemComplexidade.MEDIA   ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(3,  9999,    5,      14,      OrdemComplexidade.ALTA    ));
-		faixasComplexidadeIntervalo.add(inserirLinhaColuna(3,  9999,    15,     99999,   OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(0,  1,       0,      4,       OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(0,  1,       5,      14,      OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(0,  1,       15,     99999,   OrdemComplexidade. MEDIA  ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(2,  2,       0,      4,       OrdemComplexidade.BAIXA   ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(2,  2,       5,      14,      OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(2,  2,       15,     99999,   OrdemComplexidade. ALTA   ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(3,  9999,    0,      4,       OrdemComplexidade.MEDIA   ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(3,  9999,    5,      14,      OrdemComplexidade.ALTA    ));
+		faixasComplexidadeIntervaloEE.add(inserirLinhaColuna(3,  9999,    15,     99999,   OrdemComplexidade.ALTA    ));
 		
+		faixaComplexidadeEE.setIntervaloDados(faixasComplexidadeIntervaloEE);
 		
-		return faixaDeComplexidade;
 	}
 	
 

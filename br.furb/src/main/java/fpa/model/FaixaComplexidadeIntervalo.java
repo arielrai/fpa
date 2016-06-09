@@ -1,6 +1,8 @@
 package fpa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+
 import java.io.Serializable;
 import javax.persistence.Table;
 import javax.persistence.Id;
@@ -35,7 +37,7 @@ public class FaixaComplexidadeIntervalo implements Serializable {
 	@Column(name = "qt_ate_linha")
 	private int qtAteLinha;
 
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	@Column(name = "tp_complexidade")
 	private OrdemComplexidade tipoComplexidade;
 
