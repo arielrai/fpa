@@ -33,7 +33,7 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 		tableInstance.createHead("valorFormatado", "Valor Hora", "text-right");
 		
 		//Adiciona as rows
-		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Projeto.class);
+		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Projeto.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		projetoCriteria.setFirstResult(startPosition);
 		projetoCriteria.setMaxResults(registrosPorPagina);
 
