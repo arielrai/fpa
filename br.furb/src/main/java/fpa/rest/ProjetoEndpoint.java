@@ -101,7 +101,8 @@ public class ProjetoEndpoint{
 		}
 		
 		
-		return Response.noContent().build();
+		find.setMessage("Projeto atualizado com sucesso!");
+		return Response.ok(find).build();
 	}
 	
 	@POST
