@@ -17,6 +17,10 @@ fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterPro
 		url : '/projeto',
 		templateUrl : 'pages/table.html',
 		controller : 'TableCtrl'
+    }).state('funcao', {
+		url : '/funcao',
+		templateUrl : 'pages/funcaoCadastro.html',
+		controller : 'FuncaoController'
     });
 
 	$stateProviderRef = $stateProvider;
