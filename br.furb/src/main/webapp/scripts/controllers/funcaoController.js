@@ -14,7 +14,7 @@ function($scope, $location, $state, $stateParams, $requestService) {
 	}
 	
 	if (!!$stateParams.id) {
-		$requestService.get("projetos/form/" + $stateParams.id, function(response){
+		$requestService.get("funcoes/form/" + $stateParams.id, function(response){
 			$scope.form = response.data;
 			$scope.form.pojo.dataInicial = new Date($scope.form.pojo.dataInicial);
 			$scope.form.pojo.dataFinal = new Date($scope.form.pojo.dataFinal);
@@ -33,7 +33,7 @@ function($scope, $location, $state, $stateParams, $requestService) {
 			}, true);
 		});
 	}else{
-		$requestService.get("projetos/form", function(response){
+		$requestService.get("funcoes/form", function(response){
 			$scope.form = response.data;
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
 				if (angular.isDefined($scope.formValid)) {
@@ -68,15 +68,15 @@ function($scope, $location, $state, $stateParams, $requestService) {
 	$scope.save = function(pojo){
 		if (pojo.id == null) {
 			//Create
-			$requestService.post("projetos", function(data) {
+			$requestService.post("funcoes", data => {
 				$scope.form.pojo = data.data;
 				$scope.success = data.data.message;
-			}, function(error) {
+			}, error => {
 				$scope.error = error.data;
 			}, pojo);
 		}else{
 			//Update
-			$requestService.put("projetos/"+pojo.id, function(data) {
+			$requestService.put("funcoes/"+pojo.id, function(data) {
 				$scope.success = data.data.message;
 			}, function(error, status) {
 				$scope.error = error.data;

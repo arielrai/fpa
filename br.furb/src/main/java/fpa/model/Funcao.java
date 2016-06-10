@@ -1,11 +1,17 @@
 package fpa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+
 import java.io.Serializable;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Version;
 
@@ -22,10 +28,15 @@ public class Funcao implements Serializable {
 	private int version;
 
 	@Column(name = "nm_funcao", nullable = false)
-	private String funcao;
+	private String nome;
 
 	@Column(name = "ds_funcao")
 	private String descricao;
+	
+//	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_tabela_id_tabela"))
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
+			,optional=false, targetEntity=Tabela.class )
+	private FaixaComplexidade complexidade;
 
 	public Long getId() {
 		return this.id;
@@ -68,12 +79,12 @@ public class Funcao implements Serializable {
 		return result;
 	}
 
-	public String getFuncao() {
-		return funcao;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setFuncao(String funcao) {
-		this.funcao = funcao;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getDescricao() {
@@ -87,8 +98,8 @@ public class Funcao implements Serializable {
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
-		if (funcao != null && !funcao.trim().isEmpty())
-			result += "nome: " + funcao;
+		if (nome != null && !nome.trim().isEmpty())
+			result += "nome: " + nome;
 		if (descricao != null && !descricao.trim().isEmpty())
 			result += ", descricao: " + descricao;
 		return result;
