@@ -64,7 +64,29 @@ angular
 										if (!!doneFunction) {
 											return doneFunction(d);
 										}
-									}, function(data) {
+									}, function(data, a , e) {
+										if (angular.equals(data.status, 401)) {
+											$state.go("login");
+										} else {
+											if (!!errorFunction) {
+												errorFunction(data, data.status);
+											}
+										}
+									}, function(value) {
+										// notify?
+									});
+						},
+						put : function(url, doneFunction, errorFunction,
+								paramsObj) {
+							return $http.put(
+									baseUrl.concat(url),
+									angular.isDefined(paramsObj) ? angular
+											.toJson(paramsObj) : paramsObj)
+									.then(function(d) {
+										if (!!doneFunction) {
+											return doneFunction(d);
+										}
+									}, function(data, a , e) {
 										if (angular.equals(data.status, 401)) {
 											$state.go("login");
 										} else {

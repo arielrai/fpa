@@ -2,16 +2,6 @@ angular.module('fpa').controller('ProjetoController',
 
 function($scope, $location, $state, $stateParams, $requestService) {
 
-	$scope.formData = {};
-	$scope.currentPage = 1;
-
-	// function to process the form
-	$scope.processForm = function() {
-		$scope.currentPage = $scope.currentPage + 1;
-		$state.go("cadastroProjeto." + $scope.currentPage);
-		// fazer uma requisição para o servidor para solicitar a próxima página
-	};
-
 	$scope.page = 1;
 	
 	$scope.fatorLabel = function(selected){
@@ -24,8 +14,16 @@ function($scope, $location, $state, $stateParams, $requestService) {
 	}
 	
 	if (!!$stateParams.id) {
-		$requestService.post("projetos/form/" + $stateParams.id, function(response){
+		$requestService.get("projetos/form/" + $stateParams.id, function(response){
 			$scope.form = response.data;
+			$scope.form.pojo.dataInicial = new Date($scope.form.pojo.dataInicial);
+			$scope.form.pojo.dataFinal = new Date($scope.form.pojo.dataFinal);
+			$scope.form.pojo.valorFormatado = $scope.form.pojo.valorFormatado.replace("R$", "").replace(",", "");
+			var length = $scope.form.pojo.valorFormatado.length;
+			for (var int = 0; int < 7-length; int++) {
+				$scope.form.pojo.valorFormatado = "0"+ $scope.form.pojo.valorFormatado;
+				
+			}
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
 				if (angular.isDefined($scope.formValid)) {
 					$scope.formValid = $scope.isAllFieldValid();
@@ -67,5 +65,32 @@ function($scope, $location, $state, $stateParams, $requestService) {
 		return "R$ " + beforeComma +","+ afterComma;
 	}
 	
+	$scope.save = function(pojo){
+		if (pojo.id == null) {
+			//Create
+			$requestService.post("projetos", function(data) {
+				$scope.form.pojo = data.data;
+				$scope.success = data.data.message;
+			}, function(error) {
+				$scope.error = error.data;
+			}, pojo);
+		}else{
+			//Update
+			$requestService.put("projetos/"+pojo.id, function(data) {
+				$scope.success = data.data.message;
+			}, function(error, status) {
+				$scope.error = error.data;
+			}, pojo);
+		}
+	
+	}
+	
+	$scope.getTitle = function(){
+		if (angular.isDefined($scope.form) && angular.isDefined($scope.form.pojo) && $scope.form.pojo.nome != null) {
+			return $scope.form.pojo.nome + " - Código: " + ($scope.form.pojo.id == null ? "" : $scope.form.pojo.id);
+		}else{
+			return "Cadastro de Projeto";
+		}
+	}
 	
 });

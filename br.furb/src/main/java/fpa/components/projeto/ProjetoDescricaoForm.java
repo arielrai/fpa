@@ -24,7 +24,6 @@ public class ProjetoDescricaoForm extends AbstractFormService<Projeto>{
 	@Override
 	protected Map<String, Object> params() {
 		Map<String, Object> params = super.params();
-		
 		params.put("niveis", java.util.stream.Stream.of(NivelInfluencia.values()).map(e ->new FormEnumBean<NivelInfluencia>(e.getDescricao(), e)).collect(Collectors.toList()));
 		params.put("fatores", java.util.stream.Stream.of(FatorAjuste.values()).map(e ->new FormEnumBean<FatorAjuste>(e.getDescricao(), e)).collect(Collectors.toList()));
 		return params;
@@ -49,7 +48,7 @@ public class ProjetoDescricaoForm extends AbstractFormService<Projeto>{
 	protected List<FormField> getFields(ArrayList<FormField> fields) {
 		fields.add(createTextField(		"nome", 		"Nome", 		"Digite o nome", true));
 		fields.add(createTextArea(		"descricao", 	"Descrição", 	"Digite uma Descrição do Projeto", true));
-		fields.add(createMaskedField(	"valorHora", 	"Valor Hora", 	"Digite o valor da Hora","R$ 9?9?99,99", true));
+		fields.add(createMaskedField(	"valorFormatado", 	"Valor Hora", 	"Digite o valor da Hora","R$ 9?9?99,99", true));
 		fields.add(createDateField(		"dataInicial", 	"Data Inicial", "Digite a data Inicial", true));
 		fields.add(createDateField(		"dataFinal", 	"Data Final", 	"Digite a Data Final", true));
 		return fields;

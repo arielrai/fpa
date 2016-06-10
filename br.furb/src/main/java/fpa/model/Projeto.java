@@ -16,12 +16,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.validator.constraints.Length;
 
 import fpa.util.DateUtils;
 import fpa.validation.AfterDateValidator;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Represent a Project
@@ -32,8 +34,11 @@ import fpa.validation.AfterDateValidator;
 @Entity
 @Table(name = "projeto")
 @AfterDateValidator(getPreviousDateField = "dataInicial", getAfterDateField = "dataFinal")
+@XmlRootElement
 public class Projeto implements Serializable, PersistentBean {
 
+	private transient String message;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
@@ -43,11 +48,9 @@ public class Projeto implements Serializable, PersistentBean {
 	private int version;
 
 	@Column(name = "nm_projeto", nullable = false)
-	@Length(min = 5)
 	private String nome;
 
-	@Column(length = 4000, name = "ds_projeto")
-	@Length(max = 4000)
+	@Column(name = "ds_projeto")
 	private String descricao;
 
 	@Column(name = "vl_hora", nullable = false)
@@ -61,6 +64,15 @@ public class Projeto implements Serializable, PersistentBean {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
+
+	@Transient
+	private String dataInicialFormatada;
+
+	@Transient
+	private String dataFinalFormatada;
+
+	@Transient
+	private String valorFormatado;
 
 	public Long getId() {
 		return this.id;
@@ -174,5 +186,25 @@ public class Projeto implements Serializable, PersistentBean {
 
 	public void setComplexidades(final List<ProjetoComplexidade> complexidades) {
 		this.complexidades = complexidades;
+	}
+
+	public void setDataFinalFormatada(String dataFinalFormatada) {
+		this.dataFinalFormatada = dataFinalFormatada;
+	}
+
+	public void setDataInicialFormatada(String dataInicialFormatada) {
+		this.dataInicialFormatada = dataInicialFormatada;
+	}
+
+	public void setValorFormatado(String valorFormatado) {
+		this.valorFormatado = valorFormatado;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public String getMessage() {
+		return message;
 	}
 }
