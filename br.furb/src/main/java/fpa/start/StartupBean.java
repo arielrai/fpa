@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 
+import fpa.model.Contribuicao;
 import fpa.model.FaixaComplexidade;
 import fpa.model.FaixaComplexidadeIntervalo;
 import fpa.model.OrdemComplexidade;
@@ -32,9 +33,29 @@ public class StartupBean {
 		ProjectionList projectionList = Projections.projectionList();
 		projectionList.add(Projections.id());
 		
-		List list = em.unwrap(Session.class).createCriteria(FaixaComplexidade.class).setMaxResults(1)
+		List listFaixaComplex = em.unwrap(Session.class).createCriteria(FaixaComplexidade.class).setMaxResults(1)
 				.setProjection(projectionList).list();
-		if (list.isEmpty()) {
+		
+		List listContrib = em.unwrap(Session.class).createCriteria(Contribuicao.class).setMaxResults(1)
+				.setProjection(projectionList).list();
+		
+		if(listContrib.isEmpty()){
+			List<Contribuicao> contribuicoes = new ArrayList<>();
+			
+			contribuicoes.add(inserirContribuicao("ALI", 7, 10, 15));
+			contribuicoes.add(inserirContribuicao("AIE", 5, 7,  10));
+			contribuicoes.add(inserirContribuicao("EE",  3, 4,  6));
+			contribuicoes.add(inserirContribuicao("SE",  4, 5,  7));
+			contribuicoes.add(inserirContribuicao("CE",  3, 4,  6));
+			
+			for (Contribuicao contribuicao : contribuicoes) {
+				em.persist(contribuicao);
+			}
+			
+		}
+		
+		
+		if (listFaixaComplex.isEmpty()) {
 			FaixaComplexidade faixaComplexidadeALI = new FaixaComplexidade();
 			faixaComplexidadeALI.setDescricao("Tabela ALI AIE");
 			faixaComplexidadeALI.setNome("Tabela ALI AIE");
@@ -116,6 +137,15 @@ public class StartupBean {
 		intervalo.setIntervaloColuna(deColuna, ateColuna);
 		intervalo.setTipoComplexidade(complexidade);
 		return intervalo;
+	}
+	
+	private Contribuicao inserirContribuicao(String tipo, Integer baixa, Integer media, Integer alta){
+		Contribuicao contribuicao = new Contribuicao();
+		contribuicao.setAlta(alta);
+		contribuicao.setBaixa(baixa);
+		contribuicao.setMedia(media);
+		contribuicao.setTipo(tipo);
+		return contribuicao;
 	}
 
 }
