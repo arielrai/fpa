@@ -25,11 +25,7 @@ function($scope, $location, $state, $stateParams, $requestService) {
 				
 			}
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
-				if (angular.isDefined($scope.formValid)) {
-					$scope.formValid = $scope.isAllFieldValid();
-				}else{
-					$scope.formValid = false;
-				}
+				$scope.formValid = $scope.isAllFieldValid();
 			}, true);
 		});
 	}else{
@@ -93,4 +89,8 @@ function($scope, $location, $state, $stateParams, $requestService) {
 		}
 	}
 	
+
+	$scope.funcao = function(id){
+		$state.go("funcoes", {id: id});
+	}
 });

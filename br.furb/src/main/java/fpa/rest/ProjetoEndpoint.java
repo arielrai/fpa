@@ -33,7 +33,7 @@ import fpa.model.ProjetoPojo;
 @Stateless
 public class ProjetoEndpoint{
 	
-	@Inject private ProjetoTable projetoTable;
+	private ProjetoTable projetoTable;
 	@Inject private ProjetoDescricaoForm projetoForm;
 	
 	@PersistenceContext(unitName = "primary")
@@ -43,12 +43,19 @@ public class ProjetoEndpoint{
 		return Projeto.class;
 	}
 	
+	public ProjetoTable getProjetoTable() {
+		if (projetoTable == null) {
+			projetoTable = new ProjetoTable(em);
+		}
+		return projetoTable;
+	}
+	
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
 	@Path("table")
 	public Response getTable(TableBean<Projeto> entity) {
-		return Response.ok(projetoTable.createTable(entity.getPagination().getPage(), 
+		return Response.ok(getProjetoTable().createTable(entity.getPagination().getPage(), 
 				entity.getPagination().getCountPerPage(), entity.getSortBy(), entity.getSortOrder(), null)).build();
 	}
 	
@@ -56,7 +63,7 @@ public class ProjetoEndpoint{
 	@Produces("application/json")
 	@Path("table")
 	public Response getTable() {
-		return Response.ok(projetoTable.createTable(0, 20, "nome", "desc", null)).build();
+		return Response.ok(getProjetoTable().createTable(0, 20, "nome", "desc", null)).build();
 	}
 
 
@@ -117,6 +124,7 @@ public class ProjetoEndpoint{
 
 	private void convertPojo(Projeto projeto, ProjetoPojo pojo) {
 		projeto.setNome(pojo.getNome());
+		projeto.setDescricao(pojo.getDescricao());
 		projeto.setComplexidades(pojo.getComplexidades());
 		String valorFormatado = pojo.getValorFormatado().replaceAll("\\.", "");
 		projeto.setValorHora(new BigDecimal(new Double(

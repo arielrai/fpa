@@ -13,7 +13,7 @@
 
 			<div class="page-header text-center">
 				<h2>{{getTitle()}}</h2>
-
+				
 				<!-- the links to our nested states using relative paths -->
 				<!-- add the active class if the state matches our ui-sref -->
 				<div id="status-buttons" class="text-center">
@@ -29,6 +29,8 @@
 						<b ng-if="page==3"><span>3 - </span> Resumo</b>
 						<div ng-if="page!=3"><span>3 - </span> Resumo</div>
 					</button>
+					<button class="btn btn btn-primary pull-right" ng-show="!!form.pojo.id" ng-click="funcao(form.pojo.id)" > <span class="glyphicon glyphicon-list-alt"></span> Funcoes</button>
+					
 				</div>
 			</div>
 			<div ng-show="page == 1">

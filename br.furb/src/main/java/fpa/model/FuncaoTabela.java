@@ -1,21 +1,20 @@
 package fpa.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
@@ -47,7 +46,7 @@ public class FuncaoTabela implements Serializable {
 			,optional=false, targetEntity=Tabela.class )
 	private Funcao funcao;
 
-	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_tabela_id_tabela"))
+	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_id_tabela"))
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
 			,optional=false, targetEntity=Tabela.class )
 	private Tabela tabela;
