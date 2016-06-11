@@ -62,6 +62,17 @@ public class Projeto implements Serializable, PersistentBean {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Funcao> funcoes = new ArrayList<Funcao>();
+	
+	public List<Funcao> getFuncoes() {
+		return funcoes;
+	}
+
+	public void setFuncoes(List<Funcao> funcoes) {
+		this.funcoes = funcoes;
+	}
+
 	public Long getId() {
 		return this.id;
 	}
