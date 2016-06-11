@@ -22,8 +22,8 @@ public class ProjetoDescricaoForm extends AbstractFormService<Projeto>{
 	}
 	
 	@Override
-	protected Map<String, Object> params() {
-		Map<String, Object> params = super.params();
+	protected Map<String, Object> params(Projeto projeto) {
+		Map<String, Object> params = super.params(projeto);
 		params.put("niveis", java.util.stream.Stream.of(NivelInfluencia.values()).map(e ->new FormEnumBean<NivelInfluencia>(e.getDescricao(), e)).collect(Collectors.toList()));
 		params.put("fatores", java.util.stream.Stream.of(FatorAjuste.values()).map(e ->new FormEnumBean<FatorAjuste>(e.getDescricao(), e)).collect(Collectors.toList()));
 		return params;

@@ -18,7 +18,7 @@ fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterPro
 		templateUrl : 'pages/table.html',
 		controller : 'TableCtrl'
 	}).state('funcoesCadastro', {
-		url : '/funcaoCadastro/:id?',
+		url : '/funcaoCadastro/:params?',
 		templateUrl : 'pages/funcaoCadastro.html',
 		controller : 'FuncaoController'
 	}).state('funcoes', {

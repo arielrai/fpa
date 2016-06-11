@@ -1,11 +1,11 @@
 angular.module('fpa').controller('FuncaoTableCtrl', function($scope, $requestService, $state,
 		$requestService, dialogs, $window, $state, $stateParams) {
 	$scope.editar = function(id){
-		$state.go($state.$current.name+"Cadastro", { "id": id});
+		$state.go($state.$current.name+"Cadastro", {params: angular.toJson({"id": id, "projeto": $stateParams.id})});
 	}
 	
 	$scope.novo = function(){
-		$state.go($state.$current.name+"Cadastro");
+		$state.go($state.$current.name+"Cadastro", {params: angular.toJson({"projeto": $stateParams.id})} );
 	}
 	
 	$scope.excluir = function(id){

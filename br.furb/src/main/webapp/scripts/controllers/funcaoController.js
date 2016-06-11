@@ -3,16 +3,17 @@ angular.module('fpa').controller('FuncaoController',
 function($scope, $location, $state, $stateParams, $requestService) {
 
 	$scope.page = 1;
+	$scope.params = angular.fromJson($stateParams.params);
 	
 	if (!!$stateParams.id) {
-		$requestService.get("funcoes/form/" + $stateParams.id, function(response){
+		$requestService.get("funcoes/form/" + $scope.params.id + "/" + $scope.params.projeto, function(response){
 			$scope.form = response.data;
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
 				$scope.formValid = $scope.isAllFieldValid();
 			}, true);
 		});
 	}else{
-		$requestService.get("funcoes/form", function(response){
+		$requestService.get("funcoes/form/"+ $scope.params.projeto, function(response){
 			$scope.form = response.data;
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
 				if (angular.isDefined($scope.formValid)) {
@@ -69,5 +70,21 @@ function($scope, $location, $state, $stateParams, $requestService) {
 		}else{
 			return "Cadastro de Função";
 		}
+	}
+	
+	$scope.addAtribute = function(tabela){
+		tabela.campos.push({nome: ""});
+	}
+	
+	$scope.removeTabela = function(index){
+		$scope.form.params.tabelas.splice(index, 1);
+	}
+	
+	$scope.addTabela = function(){
+		$scope.form.params.tabelas.push({nome:"", campos:[]});
+	}
+	
+	$scope.removeAtribute = function(tabela, index){
+		tabela.campos.splice(index, 1);
 	}
 });

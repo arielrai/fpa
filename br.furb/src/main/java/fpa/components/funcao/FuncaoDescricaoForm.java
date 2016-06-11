@@ -6,23 +6,42 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 
 import fpa.components.form.AbstractFormService;
+import fpa.components.form.Form;
 import fpa.components.form.FormField;
 import fpa.components.form.enum_.FormEnumBean;
+import fpa.model.FaixaComplexidade;
 import fpa.model.Funcao;
-import fpa.model.domain.FatorAjuste;
-import fpa.model.domain.NivelInfluencia;
+import fpa.model.Projeto;
+import fpa.model.Tabela;
 
 @Singleton
 public class FuncaoDescricaoForm extends AbstractFormService<Funcao>{
 
+	private EntityManager em;
+	
+	public FuncaoDescricaoForm(EntityManager em) {
+		this.em = em;
+	}
 	
 	@Override
-	protected Map<String, Object> params() {
-		Map<String, Object> params = super.params();
-		params.put("niveis", java.util.stream.Stream.of(NivelInfluencia.values()).map(e ->new FormEnumBean<NivelInfluencia>(e.getDescricao(), e)).collect(Collectors.toList()));
-		params.put("fatores", java.util.stream.Stream.of(FatorAjuste.values()).map(e ->new FormEnumBean<FatorAjuste>(e.getDescricao(), e)).collect(Collectors.toList()));
+	protected Map<String, Object> params(Funcao funcao) {
+		Map<String, Object> params = super.params(funcao);
+		Session session = em.unwrap(Session.class);
+		List<FaixaComplexidade> list = session.createCriteria(FaixaComplexidade.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		List<FormEnumBean<FaixaComplexidade>> tipos = list.stream().map(e -> new FormEnumBean<>(e.getNome(), e)).collect(Collectors.toList());
+		params.put("tipo", tipos);
+		
+		List<Tabela> tabelas = new ArrayList<Tabela>();
+		tabelas.addAll(em.find(Projeto.class, funcao.getProjeto().getId()).getTabelas());
+		params.put("tabelas", tabelas);
+		
+		
 		return params;
 	}
 	
@@ -41,6 +60,12 @@ public class FuncaoDescricaoForm extends AbstractFormService<Funcao>{
 	@Override
 	public String getTitle(Funcao entity) {
 		return entity.getId() == null ? "Funcao" : entity.getNome();
+	}
+	
+	public Form<Funcao> getForm(Projeto entity) {
+		Funcao newBean = newBean();
+		newBean.setProjeto(entity);
+		return new Form<Funcao>(newBean, getFields(new ArrayList<FormField>()), getTitle(newBean), params(newBean));
 	}
 
 }

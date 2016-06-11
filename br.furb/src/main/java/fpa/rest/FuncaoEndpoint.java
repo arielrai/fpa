@@ -37,13 +37,20 @@ import fpa.model.ProjetoPojo;
 public class FuncaoEndpoint{
 	
 	private FuncaoTable funcaoTable;
-	private FuncaoDescricaoForm form = new FuncaoDescricaoForm();
+	private FuncaoDescricaoForm descricaoForm;
 	
 	@PersistenceContext(unitName = "primary")
 	protected EntityManager em;
 
 	public Class<Projeto> getClazz() {
 		return Projeto.class;
+	}
+	
+	public FuncaoDescricaoForm getdescricaoForm() {
+		if (descricaoForm == null) {
+			descricaoForm = new FuncaoDescricaoForm(em);
+		}
+		return descricaoForm;
 	}
 	
 	public FuncaoTable getFuncaoTable() {
@@ -71,7 +78,7 @@ public class FuncaoEndpoint{
 	@Produces("application/json")
 	@Path("form/{id}/{projetoId}")
 	public Response getForm(@PathParam("id") Long id, @PathParam("projetoId") Long projetoId) {
-		return Response.ok(form.getForm(em.find(Funcao.class, id))).build();
+		return Response.ok(getdescricaoForm().getForm(em.find(Funcao.class, id))).build();
 	}
 
 	@GET
@@ -79,8 +86,7 @@ public class FuncaoEndpoint{
 	@Path("form/{projetoId}")
 	public Response getForm(@PathParam("projetoId") Long projetoId) {
 		Projeto projeto = em.find(Projeto.class, projetoId);
-		Form<Funcao> form2 = form.getForm();
-		form2.getPojo().setProjeto(projeto);
+		Form<Funcao> form2 = getdescricaoForm().getForm(projeto);
 		return Response.ok(form2).build();
 	}
 	

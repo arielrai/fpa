@@ -69,6 +69,10 @@ public class Projeto implements Serializable, PersistentBean {
 	@OneToMany(targetEntity=Funcao.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Funcao> funcoes = new ArrayList<Funcao>();
+	
+	@OneToMany(targetEntity=Tabela.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Tabela> tabelas = new ArrayList<>();
 
 	@Transient
 	private String dataInicialFormatada;
@@ -219,5 +223,12 @@ public class Projeto implements Serializable, PersistentBean {
 	
 	public void setFuncoes(List<Funcao> funcoes) {
 		this.funcoes = funcoes;
+	}
+	
+	public List<Tabela> getTabelas() {
+		return tabelas;
+	}
+	public void setTabelas(List<Tabela> tabelas) {
+		this.tabelas = tabelas;
 	}
 }

@@ -19,7 +19,7 @@ public abstract class AbstractFormService<T> {
 
 	protected abstract T newBean();
 	
-	protected Map<String, Object> params(){
+	protected Map<String, Object> params(T newBean){
 		return new HashMap<>();
 	}
 	
@@ -28,11 +28,11 @@ public abstract class AbstractFormService<T> {
 	
 	public Form<T> getForm(){
 		T newBean = newBean();
-		return new Form<T>(newBean, getFields(new ArrayList<FormField>()), getTitle(newBean), params());
+		return new Form<T>(newBean, getFields(new ArrayList<FormField>()), getTitle(newBean), params(newBean));
 	}; 
 	
 	public Form<T> getForm(T bean){
-		return new Form<T>(bean, getFields(new ArrayList<FormField>()), getTitle(bean), params());
+		return new Form<T>(bean, getFields(new ArrayList<FormField>()), getTitle(bean), params(bean));
 	}; 
 	
 	protected abstract List<FormField> getFields(ArrayList<FormField> fields);
