@@ -1,18 +1,19 @@
 package fpa.model;
 
+
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-
-import java.io.Serializable;
-import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
@@ -33,10 +34,17 @@ public class Funcao implements Serializable {
 	@Column(name = "ds_funcao")
 	private String descricao;
 	
+
 //	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_tabela_id_tabela"))
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
 			,optional=false, targetEntity=Tabela.class )
 	private FaixaComplexidade complexidade;
+
+
+	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_id_projeto"))
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	private Projeto projeto;
+
 
 	public Long getId() {
 		return this.id;
@@ -95,6 +103,14 @@ public class Funcao implements Serializable {
 		this.descricao = descricao;
 	}
 
+	public Projeto getProjeto() {
+		return projeto;
+	}
+	
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+	
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";

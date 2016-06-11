@@ -2,13 +2,13 @@ package fpa.components.funcao;
 
 import java.util.List;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import fpa.components.table.AbstractTableService;
 import fpa.components.table.TableBean;
@@ -16,14 +16,14 @@ import fpa.components.table.TableSearchProperty;
 import fpa.components.table.TableSortOrder;
 import fpa.components.table.TableViewType;
 import fpa.model.Funcao;
+import fpa.model.Projeto;
 
-@Singleton
 public class FuncaoTable extends AbstractTableService<Funcao> {
 
-	@PersistenceContext(unitName = "primary")
 	private EntityManager em;	
 	
-	public FuncaoTable() {
+	public FuncaoTable(EntityManager em) {
+		this.em = em;
 	}
 	
 	@Override
@@ -35,20 +35,19 @@ public class FuncaoTable extends AbstractTableService<Funcao> {
 		tableInstance.createHead("descricao", "Descrição", "text-left");
 		
 		//Adiciona as rows
-		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Funcao.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		projetoCriteria.setFirstResult(startPosition);
-		projetoCriteria.setMaxResults(registrosPorPagina);
+		Projeto projeto = em.find(Projeto.class, new Long(searchProps.get(0).getValue()));
 
 		//TODO adicionar os filtros
 		if (searchProps != null && searchProps.isEmpty()) {
+//			projetoCriteria.add(Restrictions.eq(propertyName, value))
 		}
 		
-		if (sortBy != null && !sortBy.isEmpty()) {
-			Order hibernateOrder = TableSortOrder.getHibernateOrder(sortBy, sortOrder);
-			projetoCriteria.addOrder(hibernateOrder);
-		}
+//		if (sortBy != null && !sortBy.isEmpty()) {
+//			Order hibernateOrder = TableSortOrder.getHibernateOrder(sortBy, sortOrder);
+//			projetoCriteria.addOrder(hibernateOrder);
+//		}
 		
-		tableInstance.setRows(projetoCriteria.list());
+		tableInstance.setRows(projeto.getFuncoes());
 	}
 
 	@Override

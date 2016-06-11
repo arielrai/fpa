@@ -18,12 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import fpa.util.DateUtils;
 import fpa.validation.AfterDateValidator;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Represent a Project
@@ -62,8 +63,12 @@ public class Projeto implements Serializable, PersistentBean {
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity=ProjetoComplexidade.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
+	
+	@OneToMany(targetEntity=Funcao.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Funcao> funcoes = new ArrayList<Funcao>();
 
 	@Transient
 	private String dataInicialFormatada;
@@ -206,5 +211,13 @@ public class Projeto implements Serializable, PersistentBean {
 	
 	public String getMessage() {
 		return message;
+	}
+	
+	public List<Funcao> getFuncoes() {
+		return funcoes;
+	}
+	
+	public void setFuncoes(List<Funcao> funcoes) {
+		this.funcoes = funcoes;
 	}
 }

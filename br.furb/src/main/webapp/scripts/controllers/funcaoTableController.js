@@ -1,4 +1,5 @@
-angular.module('fpa').controller('FuncaoTableCtrl', function($scope, $requestService, $state, $requestService, dialogs, $window, $state) {
+angular.module('fpa').controller('FuncaoTableCtrl', function($scope, $requestService, $state,
+		$requestService, dialogs, $window, $state, $stateParams) {
 	$scope.editar = function(id){
 		$state.go($state.$current.name+"Cadastro", { "id": id});
 	}
@@ -22,7 +23,7 @@ angular.module('fpa').controller('FuncaoTableCtrl', function($scope, $requestSer
 	}
 	
 	$scope.resource = function(params, paramsObj) {
-		return $requestService.get($state.$current.name + "/table", function(response){
+		return $requestService.get($state.$current.name + "/table/" +$stateParams.id, function(response){
 			$scope.tableBean = response.data;
 			$scope.title = response.data.title;
 			$scope.icon = response.data.icon;
