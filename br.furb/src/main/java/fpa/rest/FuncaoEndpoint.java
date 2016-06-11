@@ -18,8 +18,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import fpa.components.form.Form;
+import fpa.components.funcao.FuncaoDescricaoForm;
 import fpa.components.funcao.FuncaoTable;
 import fpa.components.table.TableSearchProperty;
+import fpa.model.Funcao;
 import fpa.model.Projeto;
 import fpa.model.ProjetoPojo;
 
@@ -34,6 +37,7 @@ import fpa.model.ProjetoPojo;
 public class FuncaoEndpoint{
 	
 	private FuncaoTable funcaoTable;
+	private FuncaoDescricaoForm form = new FuncaoDescricaoForm();
 	
 	@PersistenceContext(unitName = "primary")
 	protected EntityManager em;
@@ -65,18 +69,19 @@ public class FuncaoEndpoint{
 
 	@GET
 	@Produces("application/json")
-	@Path("form/{id}")
-	public Response getForm(@PathParam("id") Long id) {
-//		return Response.ok(projetoForm.getForm(em.find(Projeto.class, id))).build();
-		return null;
+	@Path("form/{id}/{projetoId}")
+	public Response getForm(@PathParam("id") Long id, @PathParam("projetoId") Long projetoId) {
+		return Response.ok(form.getForm(em.find(Funcao.class, id))).build();
 	}
 
 	@GET
 	@Produces("application/json")
-	@Path("form")
-	public Response getForm() {
-//		return Response.ok(projetoForm.getForm()).build();
-		return null;
+	@Path("form/{projetoId}")
+	public Response getForm(@PathParam("projetoId") Long projetoId) {
+		Projeto projeto = em.find(Projeto.class, projetoId);
+		Form<Funcao> form2 = form.getForm();
+		form2.getPojo().setProjeto(projeto);
+		return Response.ok(form2).build();
 	}
 	
 	@PUT
