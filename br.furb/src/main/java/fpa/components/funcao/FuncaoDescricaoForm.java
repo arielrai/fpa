@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.inject.Singleton;
+
 import fpa.components.form.AbstractFormService;
 import fpa.components.form.FormField;
 import fpa.components.form.enum_.FormEnumBean;
@@ -12,6 +14,7 @@ import fpa.model.Funcao;
 import fpa.model.domain.FatorAjuste;
 import fpa.model.domain.NivelInfluencia;
 
+@Singleton
 public class FuncaoDescricaoForm extends AbstractFormService<Funcao>{
 
 	

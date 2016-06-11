@@ -3,17 +3,10 @@ package fpa.components.funcao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
 import fpa.components.table.AbstractTableService;
 import fpa.components.table.TableBean;
 import fpa.components.table.TableSearchProperty;
-import fpa.components.table.TableSortOrder;
 import fpa.components.table.TableViewType;
 import fpa.model.Funcao;
 import fpa.model.Projeto;
