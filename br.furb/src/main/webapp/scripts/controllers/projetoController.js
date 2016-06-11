@@ -1,6 +1,6 @@
 angular.module('fpa').controller('ProjetoController',
 
-function($scope, $location, $state, $stateParams, $requestService) {
+function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 
 	$scope.page = 1;
 	
@@ -66,16 +66,25 @@ function($scope, $location, $state, $stateParams, $requestService) {
 			//Create
 			$requestService.post("projetos", function(data) {
 				$scope.form.pojo = data.data;
-				$scope.success = data.data.message;
+				$scope.form.pojo.dataInicial = new Date($scope.form.pojo.dataInicial);
+				$scope.form.pojo.dataFinal = new Date($scope.form.pojo.dataFinal);
+				$rootScope.error = "";
+				$rootScope.success = data.data.message;
 			}, function(error) {
-				$scope.error = error.data;
+				$rootScope.error = error.data;
+				$rootScope.success = "";
 			}, pojo);
 		}else{
 			//Update
 			$requestService.put("projetos/"+pojo.id, function(data) {
-				$scope.success = data.data.message;
+				$scope.form.pojo = data.data;
+				$scope.form.pojo.dataInicial = new Date($scope.form.pojo.dataInicial);
+				$scope.form.pojo.dataFinal = new Date($scope.form.pojo.dataFinal);
+				$rootScope.error = "";
+				$rootScope.success = data.data.message;
 			}, function(error, status) {
-				$scope.error = error.data;
+				$rootScope.error = error.data;
+				$rootScope.success = "";
 			}, pojo);
 		}
 	

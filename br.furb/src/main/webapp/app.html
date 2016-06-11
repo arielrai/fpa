@@ -47,6 +47,12 @@
 	</div><!-- Header -->
 
 	<div id="wrap">
+		<div class="alert alert-danger" ng-show="!!error">
+  			{{error}}
+		</div>
+		<div class="alert alert-success" ng-show="!!success">
+  			{{success}}
+		</div>
 		<div class="container"> 
 			<div class="row row-offcanvas row-offcanvas-left">
 
