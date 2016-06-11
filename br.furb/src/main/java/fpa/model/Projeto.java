@@ -16,9 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import fpa.util.DateUtils;
 import fpa.validation.AfterDateValidator;
@@ -32,8 +35,11 @@ import fpa.validation.AfterDateValidator;
 @Entity
 @Table(name = "projeto")
 @AfterDateValidator(getPreviousDateField = "dataInicial", getAfterDateField = "dataFinal")
+@XmlRootElement
 public class Projeto implements Serializable, PersistentBean {
 
+	private transient String message;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
@@ -43,11 +49,9 @@ public class Projeto implements Serializable, PersistentBean {
 	private int version;
 
 	@Column(name = "nm_projeto", nullable = false)
-	@Length(min = 5)
 	private String nome;
 
-	@Column(length = 4000, name = "ds_projeto")
-	@Length(max = 4000)
+	@Column(name = "ds_projeto")
 	private String descricao;
 
 	@Column(name = "vl_hora", nullable = false)
@@ -59,19 +63,25 @@ public class Projeto implements Serializable, PersistentBean {
 	@Column(name = "dt_final")
 	private LocalDate dataFinal;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity=ProjetoComplexidade.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
+	@OneToMany(targetEntity=Funcao.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Funcao> funcoes = new ArrayList<Funcao>();
 	
-	public List<Funcao> getFuncoes() {
-		return funcoes;
-	}
+	@OneToMany(targetEntity=Tabela.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Tabela> tabelas = new ArrayList<>();
 
-	public void setFuncoes(List<Funcao> funcoes) {
-		this.funcoes = funcoes;
-	}
+	@Transient
+	private String dataInicialFormatada;
+
+	@Transient
+	private String dataFinalFormatada;
+
+	@Transient
+	private String valorFormatado;
 
 	public Long getId() {
 		return this.id;
@@ -185,5 +195,40 @@ public class Projeto implements Serializable, PersistentBean {
 
 	public void setComplexidades(final List<ProjetoComplexidade> complexidades) {
 		this.complexidades = complexidades;
+	}
+
+	public void setDataFinalFormatada(String dataFinalFormatada) {
+		this.dataFinalFormatada = dataFinalFormatada;
+	}
+
+	public void setDataInicialFormatada(String dataInicialFormatada) {
+		this.dataInicialFormatada = dataInicialFormatada;
+	}
+
+	public void setValorFormatado(String valorFormatado) {
+		this.valorFormatado = valorFormatado;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public List<Funcao> getFuncoes() {
+		return funcoes;
+	}
+	
+	public void setFuncoes(List<Funcao> funcoes) {
+		this.funcoes = funcoes;
+	}
+	
+	public List<Tabela> getTabelas() {
+		return tabelas;
+	}
+	public void setTabelas(List<Tabela> tabelas) {
+		this.tabelas = tabelas;
 	}
 }

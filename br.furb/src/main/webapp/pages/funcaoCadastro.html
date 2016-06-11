@@ -1,0 +1,130 @@
+<!-- form.html -->
+<div class="row">
+	<div class="col-sm-8 col-sm-offset-2">
+		<div id="form-container">
+
+			<div class="page-header text-center">
+				<h2>{{getTitle()}}</h2>
+				<div id="status-buttons" class="text-center">
+					<button class="btn btn-link" ng-click="page = 1"
+						ui-sref-active="active">
+						<b ng-if="page==1"><span>1 - </span> Descricao da Funcao</b>
+						<div ng-if="page!=1">
+							<span>1 - </span> Descricao da Funcao
+						</div>
+					</button>
+					<button class="btn btn-link" ng-click="page = 2"
+						ui-sref-active="active">
+						<b ng-if="page==2"><span>2 - </span> Tabelas</b>
+						<div ng-if="page!=2">
+							<span>2 - </span> Tabelas
+						</div>
+					</button>
+					<button class="btn btn-link" ng-click="page = 3"
+						ui-sref-active="active">
+						<b ng-if="page==3"><span>3 - </span> Resumo</b>
+						<div ng-if="page!=3">
+							<span>3 - </span> Resumo
+						</div>
+					</button>
+				</div>
+			</div>
+			<div ng-show="page == 1">
+				<form name="form">
+					<formly-form model="form.pojo" fields="form.fields" form="form">
+					</formly-form>
+					<div class="clearfix"></div>
+				</form>
+				<form>
+					<div class="form-group">
+						<label>Selecione a complexidade</label>
+						<select class="form-control"
+								ng-options="opt.value as opt.desc for opt in form.params.tipo"
+								ng-model="form.pojo.complexidade"></select>
+					</div>
+				</form>
+				<a class="btn btn-block btn-info" ng-click="page = 2"> Proximo <span
+					class="glyphicon glyphicon-circle-arrow-right"></span>
+				</a>
+			</div>
+			<div ng-show="page == 2">
+				<form class="form-horizontal">
+					<div ng-repeat="tabela in form.params.tabelas">
+						<div class=" col-xs-12 col-md-6">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<form class="form-horizontal">
+										<div class="row">
+											<div class="col-sm-8">
+												<input type="text" class="form-control" ng-model="tabela.nome">
+											</div>
+											<div class="col-sm-4">
+												<button class="btn btn-default btn-xs glyphicon glyphicon-minus pull-right" ng-click="removeTabela($index)" ></button>
+												<button class="btn btn-default btn-xs glyphicon glyphicon-plus pull-right" ng-click="addAtribute(tabela)"></button> 
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="panel-body">
+									<div ng-repeat="campo in tabela.campos">
+										<form class="form-horizontal">
+											<div class="row">
+												<div class="col-sm-2" style="margin-left: 2px">
+													<input type="checkbox"	ng-model="campo.selecionado">
+												</div>
+												<div class="col-sm-8" style="margin-left: -17px">
+													<input type="text" class="form-control" ng-model="campo.nome">
+												</div>
+												<div class="col-sm-1" style="margin-top: 5px">
+													<button class="btn btn-default btn-xs glyphicon glyphicon-minus pull-right" ng-click="removeAtribute(tabela, $index)" ></button>
+												</div>
+												
+											</div>
+										</form>	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class=" col-xs-12 col-md-6"> 
+						<button class="btn btn btn-primary pull-left" ng-click="addTabela()"> <span class="glyphicon glyphicon-plus"></span> Nova tabela</button>
+					</div>
+					<div class="clearfix"></div>
+					<div class="form-group">
+						<a class="btn btn-block btn-info" ng-click="page = 3"> Proximo
+							<span class="glyphicon glyphicon-circle-arrow-right"></span>
+						</a>
+					</div>
+				</form>
+			</div>
+			<div ng-show="page == 3">
+				<div class="text-center">
+					<h4 ng-if="!formValid">
+						<span class="label label-danger">Ops, existem campos
+							obrigatorios nao preenchidos!</span>
+					</h4>
+				</div>
+				<hr class="separator">
+				<div class="text-center">
+					<h3>
+						<span>Dados do projeto</span>
+					</h3>
+					<h4>
+						<span class="label label-default">{{form.pojo.nome}}</span>
+					</h4>
+					<div class="row">
+						<p>{{form.pojo.descricao}}
+					</div>
+					<h4>
+						<span class="label label-primary">Valor da hora:</span>
+						{{formataValor(form.pojo.valorHora)}}
+					</h4>
+				</div>
+				<button ng-disabled="!formValid" class="btn btn-block btn-info"
+					ng-click="save(form.pojo)">
+					Salvar <span class="glyphicon glyphicon-circle-floppy-disk"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

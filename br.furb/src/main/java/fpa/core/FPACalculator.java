@@ -41,9 +41,7 @@ public class FPACalculator {
 			Funcao funcao = iterator.next();
 			
 			
-		}
-		
-		
+		}		
 		
 		return 0;
 	}

@@ -33,7 +33,7 @@
 						id="bs-example-navbar-collapse-1"><!-- ng-if="usuario"> -->
 						<ul class="nav navbar-nav">
 							<li><a ui-sref="projetos">Projetos</a></li>
-							<li><a href="#">Página 3</a></li>
+							<li><a ui-sref="funcao">Funcao</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#">Bem vindo <b>{{usuario.nome}}</b></a></li>
@@ -47,6 +47,12 @@
 	</div><!-- Header -->
 
 	<div id="wrap">
+		<div class="alert alert-danger" ng-show="!!error">
+  			{{error}}
+		</div>
+		<div class="alert alert-success" ng-show="!!success">
+  			{{success}}
+		</div>
 		<div class="container"> 
 			<div class="row row-offcanvas row-offcanvas-left">
 
@@ -70,7 +76,7 @@
 	
 	<script src="scripts/vendor/jquery.min.js"></script>
 	<script src="scripts/vendor/bootstrap.min.js"></script>
-	<script src="scripts/vendor/angular.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.11/angular.js"></script>
 	<script src="scripts/vendor/angular-ui-router.min.js"></script>
 	<script src="scripts/vendor/ng-tasty-tpls.js"></script>
 	<script src="scripts/vendor/angular-animate.min.js"></script>
@@ -102,6 +108,8 @@
 	<script src="scripts/filters/genericSearchFilter.js"></script>
 
 	<script src="scripts/controllers/tableController.js"></script>
+	<script src="scripts/controllers/funcaoTableController.js"></script>
+	<script src="scripts/controllers/funcaoController.js"></script>
 	<script src="scripts/controllers/formController.js"></script>
 	<script src="scripts/controllers/flashController.js"></script>
 	<script src="scripts/controllers/projetoController.js"></script>

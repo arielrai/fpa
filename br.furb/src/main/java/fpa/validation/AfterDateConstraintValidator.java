@@ -36,7 +36,7 @@ public class AfterDateConstraintValidator implements ConstraintValidator<AfterDa
 			
 			//Busca os valores dos campos
 			LocalDate previousDate = (LocalDate)previousfield.get(value);
-			LocalDate afterDate = (LocalDate)previousfield.get(value);
+			LocalDate afterDate = (LocalDate)afterField.get(value);
 			
 			//Se ambos forem nulos não valida
 			if (afterDate == null && previousDate == null) {

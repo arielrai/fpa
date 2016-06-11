@@ -1,10 +1,10 @@
 package fpa.components.projeto;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -17,11 +17,12 @@ import fpa.components.table.TableSortOrder;
 import fpa.components.table.TableViewType;
 import fpa.model.Projeto;
 
-@Singleton
 public class ProjetoTable extends AbstractTableService<Projeto> {
 
-	@PersistenceContext(unitName = "primary")
-	private EntityManager em;	
+	private EntityManager em;
+	public ProjetoTable(EntityManager em) {
+		this.em = em;
+	}
 	
 	@Override
 	protected void createTable(TableBean<Projeto> tableInstance, int startPosition, int registrosPorPagina,
@@ -33,7 +34,7 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 		tableInstance.createHead("valorFormatado", "Valor Hora", "text-right");
 		
 		//Adiciona as rows
-		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Projeto.class);
+		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Projeto.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		projetoCriteria.setFirstResult(startPosition);
 		projetoCriteria.setMaxResults(registrosPorPagina);
 
@@ -46,7 +47,15 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 			projetoCriteria.addOrder(hibernateOrder);
 		}
 		
-		tableInstance.setRows(projetoCriteria.list());
+		List<Projeto> list = projetoCriteria.list();
+		
+		tableInstance.setRows(list.stream().peek(new Consumer<Projeto>() {
+
+			@Override
+			public void accept(Projeto t) {
+				t.getFuncoes();
+			}
+		}).collect(Collectors.toList()));
 	}
 
 	@Override
