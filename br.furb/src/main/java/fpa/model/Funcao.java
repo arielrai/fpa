@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
@@ -37,13 +38,11 @@ public class Funcao implements Serializable {
 
 //	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_tabela_id_tabela"))
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
-			,optional=false, targetEntity=Tabela.class )
+			,optional=false, targetEntity=FaixaComplexidade.class )
 	private FaixaComplexidade complexidade;
 
 
-	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_id_projeto"))
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private Projeto projeto;
+	@Transient private Projeto projeto;
 
 
 	public Long getId() {
@@ -109,6 +108,14 @@ public class Funcao implements Serializable {
 	
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+	}
+
+	public FaixaComplexidade getComplexidade() {
+		return complexidade;
+	}
+	
+	public void setComplexidade(FaixaComplexidade complexidade) {
+		this.complexidade = complexidade;
 	}
 	
 	@Override

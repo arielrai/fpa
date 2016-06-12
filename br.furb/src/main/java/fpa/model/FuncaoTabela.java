@@ -17,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name = "funcao_tabela")
 public class FuncaoTabela implements Serializable {
@@ -37,18 +40,16 @@ public class FuncaoTabela implements Serializable {
 		this.id = id;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, 
-			mappedBy="tabela",targetEntity=Campo.class, orphanRemoval=true)
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, targetEntity=Campo.class, orphanRemoval=true)
+	@Fetch(value = FetchMode.SUBSELECT)
     private List<Campo> campos;
 	
-	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_id_funcao"))
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
-			,optional=false, targetEntity=Tabela.class )
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL 
+			,optional=false, targetEntity=Funcao.class )
 	private Funcao funcao;
 
-	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_id_tabela"))
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
-			,optional=false, targetEntity=Tabela.class )
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL 
+			,optional=true, targetEntity=Tabela.class )
 	private Tabela tabela;
 	
 	public int getVersion() {
@@ -57,6 +58,30 @@ public class FuncaoTabela implements Serializable {
 
 	public void setVersion(final int version) {
 		this.version = version;
+	}
+
+	public List<Campo> getCampos() {
+		return campos;
+	}
+
+	public void setCampos(List<Campo> campos) {
+		this.campos = campos;
+	}
+
+	public Funcao getFuncao() {
+		return funcao;
+	}
+
+	public void setFuncao(Funcao funcao) {
+		this.funcao = funcao;
+	}
+
+	public Tabela getTabela() {
+		return tabela;
+	}
+
+	public void setTabela(Tabela tabela) {
+		this.tabela = tabela;
 	}
 
 	@Override

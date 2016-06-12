@@ -17,6 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.hibernate.Hibernate;
+
 import fpa.components.projeto.ProjetoDescricaoForm;
 import fpa.components.projeto.ProjetoTable;
 import fpa.components.table.TableBean;
@@ -71,7 +73,11 @@ public class ProjetoEndpoint{
 	@Produces("application/json")
 	@Path("form/{id}")
 	public Response getForm(@PathParam("id") Long id) {
-		return Response.ok(projetoForm.getForm(em.find(Projeto.class, id))).build();
+		Projeto find = em.find(Projeto.class, id);
+		Hibernate.initialize(find.getComplexidades());
+		Hibernate.initialize(find.getFuncoes());
+		Hibernate.initialize(find.getTabelas());
+		return Response.ok(projetoForm.getForm(find)).build();
 	}
 
 	@GET

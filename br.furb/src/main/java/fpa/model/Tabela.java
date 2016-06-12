@@ -8,12 +8,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -35,14 +32,9 @@ public class Tabela implements Serializable {
 
 	@Column(name = "ds_tabela")
 	private String descricao;
-	
-	@JoinColumn(foreignKey=@ForeignKey(name="fk_tabela_id_projeto"))
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
-			,optional=false, targetEntity=Projeto.class )
-	private Projeto projeto; 
-	
+
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, 
-			mappedBy="tabela",targetEntity=Campo.class, orphanRemoval=true)
+			targetEntity=Campo.class, orphanRemoval=true)
     private List<Campo> campos = new ArrayList<>();
 
 	public Long getId() {
@@ -110,14 +102,6 @@ public class Tabela implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
-	}
-	
-	public Projeto getProjeto() {
-		return projeto;
-	}
-	
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";

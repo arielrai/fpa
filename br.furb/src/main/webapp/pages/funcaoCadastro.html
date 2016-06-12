@@ -36,11 +36,11 @@
 					<div class="clearfix"></div>
 				</form>
 				<form>
-					<div class="form-group">
+					<div class="form-group" >
 						<label>Selecione a complexidade</label>
 						<select class="form-control"
 								ng-options="opt.value as opt.desc for opt in form.params.tipo"
-								ng-model="form.pojo.complexidade"></select>
+								ng-model="form.pojo.complexidade" ></select>
 					</div>
 				</form>
 				<a class="btn btn-block btn-info" ng-click="page = 2"> Proximo <span
@@ -107,7 +107,7 @@
 				<hr class="separator">
 				<div class="text-center">
 					<h3>
-						<span>Dados do projeto</span>
+						<span>Dados da função</span>
 					</h3>
 					<h4>
 						<span class="label label-default">{{form.pojo.nome}}</span>
@@ -115,13 +115,9 @@
 					<div class="row">
 						<p>{{form.pojo.descricao}}
 					</div>
-					<h4>
-						<span class="label label-primary">Valor da hora:</span>
-						{{formataValor(form.pojo.valorHora)}}
-					</h4>
 				</div>
 				<button ng-disabled="!formValid" class="btn btn-block btn-info"
-					ng-click="save(form.pojo)">
+					ng-click="save(form)">
 					Salvar <span class="glyphicon glyphicon-circle-floppy-disk"></span>
 				</button>
 			</div>

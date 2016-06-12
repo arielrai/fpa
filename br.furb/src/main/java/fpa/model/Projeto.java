@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fpa.util.DateUtils;
 import fpa.validation.AfterDateValidator;
 
@@ -66,11 +68,12 @@ public class Projeto implements Serializable, PersistentBean {
 	@OneToMany(targetEntity=ProjetoComplexidade.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<ProjetoComplexidade> complexidades = new ArrayList<ProjetoComplexidade>();
 	
-	@OneToMany(targetEntity=Funcao.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
+	@OneToMany(targetEntity=Funcao.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonIgnore
 	private List<Funcao> funcoes = new ArrayList<Funcao>();
 	
-	@OneToMany(targetEntity=Tabela.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="projeto")
+	@OneToMany(targetEntity=Tabela.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Tabela> tabelas = new ArrayList<>();
 

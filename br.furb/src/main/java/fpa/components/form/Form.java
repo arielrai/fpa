@@ -10,6 +10,9 @@ public class Form<T> {
 	private String title;
 	private Map<String, Object> params;
 	
+	public Form() {
+	}
+	
 	public Form(T pojo, List<FormField> fields, String title, Map<String, Object> params) {
 		super();
 		this.params = params;
@@ -32,4 +35,22 @@ public class Form<T> {
 	public Map<String, Object> getParams() {
 		return params;
 	}
+
+	public void setPojo(T pojo) {
+		this.pojo = pojo;
+	}
+
+	public void setFields(List<FormField> fields) {
+		this.fields = fields;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setParams(Map<String, Object> params) {
+		this.params = params;
+	}
+	
+	
 }

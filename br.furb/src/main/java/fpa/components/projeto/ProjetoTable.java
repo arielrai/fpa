@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 
@@ -48,14 +49,13 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 		}
 		
 		List<Projeto> list = projetoCriteria.list();
+		;
 		
-		tableInstance.setRows(list.stream().peek(new Consumer<Projeto>() {
-
-			@Override
-			public void accept(Projeto t) {
-				t.getFuncoes();
-			}
-		}).collect(Collectors.toList()));
+		for (Projeto projeto : list) {
+			Hibernate.initialize(projeto.getFuncoes());
+			Hibernate.initialize(projeto.getTabelas());
+		}
+		tableInstance.setRows(list);
 	}
 
 	@Override

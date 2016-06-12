@@ -1,13 +1,18 @@
 angular.module('fpa').controller('FuncaoController',
 
-function($scope, $location, $state, $stateParams, $requestService) {
+function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 
 	$scope.page = 1;
 	$scope.params = angular.fromJson($stateParams.params);
 	
-	if (!!$stateParams.id) {
+	if (!!$scope.params.id) {
 		$requestService.get("funcoes/form/" + $scope.params.id + "/" + $scope.params.projeto, function(response){
 			$scope.form = response.data;
+			angular.forEach($scope.form.params.tipo, function(value, key) {
+				if (angular.equals($scope.form.pojo.complexidade.nome, value.value.nome)) {
+					$scope.form.pojo.complexidade = value.value;
+				}
+			})
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
 				$scope.formValid = $scope.isAllFieldValid();
 			}, true);
@@ -38,30 +43,29 @@ function($scope, $location, $state, $stateParams, $requestService) {
 		}
 	} 
 	
-	$scope.formataValor = function(value){
-		value = value + "";
-		var afterComma = value.substring(value.length-2, value.length);
-		var beforeComma = value.substr(0, value.length-2).replace(/^0+/, '');
-		return "R$ " + beforeComma +","+ afterComma;
-	}
-	
-	$scope.save = function(pojo){
-		if (pojo.id == null) {
-			//Create
+	$scope.save = function(form){
+//		if (pojo.id == null) {
+//			//Create
+//			$requestService.post("funcoes", function(data) {
+//				$scope.form.pojo = data.data;
+//				$scope.success = data.data.message;
+//			}, function(error) {
+//				$scope.error = error.data;
+//			}, pojo);
+//		}else{
+			//salva
+		var id = form.pojo.complexidade.id;
+		var copy = angular.copy(form.pojo);
+		copy.complexidade = null;
+		copy.projeto = {id:form.pojo.projeto.id}
 			$requestService.post("funcoes", function(data) {
-				$scope.form.pojo = data.data;
-				$scope.success = data.data.message;
-			}, function(error) {
-				$scope.error = error.data;
-			}, pojo);
-		}else{
-			//Update
-			$requestService.put("funcoes/"+pojo.id, function(data) {
-				$scope.success = data.data.message;
+				$rootScope.error = "";
+				$rootScope.success = data.data.message;
 			}, function(error, status) {
-				$scope.error = error.data;
-			}, pojo);
-		}
+				$rootScope.error = error.data;
+				$rootScope.success = "";
+			}, {funcao: copy, tabelas: $scope.form.params.tabelas, complexidadeId: id});
+//		}
 	}
 	
 	$scope.getTitle = function(){
