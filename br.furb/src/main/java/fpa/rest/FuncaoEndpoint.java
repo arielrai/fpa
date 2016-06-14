@@ -1,7 +1,11 @@
 package fpa.rest;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -16,12 +20,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import fpa.components.form.Form;
 import fpa.components.funcao.FuncaoDescricaoForm;
 import fpa.components.funcao.FuncaoTable;
 import fpa.components.table.TableSearchProperty;
+import fpa.core.FPACalculator;
 import fpa.model.Campo;
+import fpa.model.Contribuicao;
 import fpa.model.FaixaComplexidade;
 import fpa.model.Funcao;
 import fpa.model.FuncaoPojo;
@@ -44,6 +52,7 @@ public class FuncaoEndpoint{
 	
 	@PersistenceContext(unitName = "primary")
 	protected EntityManager em;
+	private RestResponse restResponse;
 
 	public Class<Projeto> getClazz() {
 		return Projeto.class;
@@ -155,8 +164,20 @@ public class FuncaoEndpoint{
 				funcaoTabela.setFuncao(em.find(Funcao.class, funcaoTabela.getFuncao().getId()));
 				em.persist(funcaoTabela);
 			}
+			Contribuicao contribuicao = (Contribuicao)em.unwrap(Session.class).createCriteria(Contribuicao.class).add(Restrictions.eq("tipo", pojo.getFuncao().getComplexidade().getNome())).uniqueResult();
+			BigDecimal calculaValorFuncao = FPACalculator.calculaValorFuncao(pojo.getFuncao(), pojo.getFuncao().getComplexidade(), 
+					contribuicao, funcoesTabela.size(), 
+					funcoesTabela.stream().mapToInt(f -> f.getCampos().size()).sum());
 			
-			return Response.ok("Função cadastrada com sucesso").build();
+			Funcao funcao = pojo.getFuncao();
+			funcao.setValorfuncao(calculaValorFuncao);
+			em.persist(funcao);
+			
+			restResponse = new RestResponse();
+			restResponse.setMessage("Função cadastrada com sucesso");
+			restResponse.setEntity(NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(calculaValorFuncao));
+			
+			return Response.ok().build();
 		}else{
 			return Response.ok("Função atualizada com sucesso").build();
 		}

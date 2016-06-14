@@ -26,6 +26,7 @@ public class FuncaoTable extends AbstractTableService<Funcao> {
 		tableInstance.createHead("id", "Código", "text-left");
 		tableInstance.createHead("nome", "Nome", "text-left");
 		tableInstance.createHead("descricao", "Descrição", "text-left");
+		tableInstance.createHead("valorFormatado", "Valor da função", "text-right");
 		
 		//Adiciona as rows
 		Projeto projeto = em.find(Projeto.class, new Long(searchProps.get(0).getValue()));

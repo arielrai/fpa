@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -181,7 +182,7 @@ public class Projeto implements Serializable, PersistentBean {
 		if (this.getValorHora() == null) {
 			return "";
 		}
-		return NumberFormat.getCurrencyInstance().format(this.getValorHora());
+		return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(this.getValorHora());
 	}
 
 	public String getDataInicialFormatada() {

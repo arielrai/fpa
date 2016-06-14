@@ -2,16 +2,17 @@ package fpa.model;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,6 +36,13 @@ public class Funcao implements Serializable {
 	@Column(name = "ds_funcao")
 	private String descricao;
 	
+	@Column(name = "vl_funcao", nullable = false)
+	private BigDecimal valorfuncao = new BigDecimal(0);
+	
+	@Column(name = "nr_horas", nullable = false)
+	private int horas = 0;
+	
+	@Transient private String valorFormatado; 
 
 //	@JoinColumn(foreignKey=@ForeignKey(name="fk_funcao_tabela_id_tabela"))
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL 
@@ -126,5 +134,29 @@ public class Funcao implements Serializable {
 		if (descricao != null && !descricao.trim().isEmpty())
 			result += ", descricao: " + descricao;
 		return result;
+	}
+	
+	public BigDecimal getValorfuncao() {
+		return valorfuncao;
+	}
+	
+	public void setValorfuncao(BigDecimal valorfuncao) {
+		this.valorfuncao = valorfuncao;
+	}
+	
+	public int getHoras() {
+		return horas;
+	}
+	
+	public void setHoras(int horas) {
+		this.horas = horas;
+	}
+	
+	public void setValorFormatado(String valorFormatado) {
+		this.valorFormatado = valorFormatado;
+	}
+	
+	public String getValorFormatado() {
+		return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(valorfuncao);
 	}
 }

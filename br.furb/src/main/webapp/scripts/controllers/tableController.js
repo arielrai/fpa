@@ -1,4 +1,6 @@
-angular.module('fpa').controller('TableCtrl', function($scope, $requestService, $state, $requestService, dialogs, $window, $state) {
+angular.module('fpa').controller('TableCtrl', function($scope, $rootScope, $state, $requestService, dialogs, $window, $state) {
+	$rootScope.error = "";
+	$rootScope.success = "";
 	$scope.editar = function(id){
 		$state.go($state.$current.name+"Cadastro", { "id": id});
 	}

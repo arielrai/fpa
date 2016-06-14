@@ -72,6 +72,7 @@ public class FuncaoDescricaoForm extends AbstractFormService<Funcao>{
 	@Override
 	protected List<FormField> getFields(ArrayList<FormField> fields) {
 		fields.add(createTextField(		"nome", 		"Nome", 		"Digite o nome", true));
+		fields.add(createNumberField(		"horas", 		"Horas", 		"Digite o número de horas para esta função", true));
 		fields.add(createTextArea(		"descricao", 	"Descrição", 	"Digite uma Descrição do Projeto", true));
 		return fields;
 	}
