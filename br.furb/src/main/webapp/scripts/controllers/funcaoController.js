@@ -4,6 +4,10 @@ function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 
 	$scope.page = 1;
 	$scope.params = angular.fromJson($stateParams.params);
+	$scope.dados = {
+			description: 'Descrição',
+			dados: 'Dados da Função'
+	}
 	
 	if (!!$scope.params.id) {
 		$requestService.get("funcoes/form/" + $scope.params.id + "/" + $scope.params.projeto, function(response){

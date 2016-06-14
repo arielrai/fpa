@@ -86,14 +86,18 @@
 							</div>
 						</div>
 					</div>
-					<div class=" col-xs-12 col-md-6"> 
-						<button class="btn btn btn-primary pull-left" ng-click="addTabela()"> <span class="glyphicon glyphicon-plus"></span> Nova tabela</button>
+					<div class="row" style="margin-bottom: 10px">
+						<div class=" col-xs-12 col-md-6"> 
+							<button class="btn btn btn-primary pull-left" ng-click="addTabela()"> <span class="glyphicon glyphicon-plus"></span> Nova tabela</button>
+						</div>
 					</div>
 					<div class="clearfix"></div>
-					<div class="form-group">
-						<a class="btn btn-block btn-info" ng-click="page = 3"> Proximo
-							<span class="glyphicon glyphicon-circle-arrow-right"></span>
-						</a>
+					<div class="row">
+						<div class="form-group">
+							<a class="btn btn-block btn-info" ng-click="page = 3"> Proximo
+								<span class="glyphicon glyphicon-circle-arrow-right"></span>
+							</a>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -104,16 +108,26 @@
 							obrigatorios nao preenchidos!</span>
 					</h4>
 				</div>
-				<hr class="separator">
+				<hr ng-if="!formValid" class="separator">
 				<div class="text-center">
 					<h3>
-						<span>Dados da função</span>
+						{{ dados.dados }}
 					</h3>
 					<h4>
-						<span class="label label-default">{{form.pojo.nome}}</span>
+						<span>Nome: {{form.pojo.nome}}</span>
 					</h4>
 					<div class="row">
-						<p>{{form.pojo.descricao}}
+						<p>{{dados.description}} {{form.pojo.descricao}}</p>
+					</div>
+					<div class="row">
+						<div ng-repeat="tabela in form.params.tabelas" class="col-md-4">
+							<dl>
+								<h4>Tabela: <b>{{tabela.nome}} </b></h4>
+    							<li ng-repeat=" campo in tabela.campos" ng-if="campo.selecionado">
+        							{{ campo.nome }}
+    							</li>
+    						</dl>
+    					</div>
 					</div>
 					<div class="row">
 						<p>{{form.pojo.valor}}
