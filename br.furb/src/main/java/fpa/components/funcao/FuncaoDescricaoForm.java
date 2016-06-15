@@ -43,12 +43,14 @@ public class FuncaoDescricaoForm extends AbstractFormService<Funcao>{
 		List<Tabela> tabelas2 = funcao.getProjeto().getTabelas();
 		List<FuncaoTabela> funcaoTabela = em.unwrap(Session.class).createCriteria(FuncaoTabela.class).list();
 		for (FuncaoTabela funcaoTab : funcaoTabela) {
-			for (Tabela tabela : tabelas2) {
-				if (funcaoTab.getTabela().getId().equals(tabela.getId())) {
-					for (Campo campo : funcaoTab.getCampos()) {
-						for (Campo tabelaCampo : tabela.getCampos()) {
-							if (campo.getId().equals(tabelaCampo.getId())) {
-								tabelaCampo.setSelecionado(true);
+			if (funcaoTab.getFuncao().getId().equals(funcao.getId())) {
+				for (Tabela tabela : tabelas2) {
+					if (funcaoTab.getTabela().getId().equals(tabela.getId())) {
+						for (Campo campo : funcaoTab.getCampos()) {
+							for (Campo tabelaCampo : tabela.getCampos()) {
+								if (campo.getId().equals(tabelaCampo.getId())) {
+									tabelaCampo.setSelecionado(true);
+								}
 							}
 						}
 					}

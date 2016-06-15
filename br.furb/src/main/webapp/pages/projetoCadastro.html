@@ -57,7 +57,7 @@
 					<h3><span>Dados do projeto</span></h3>
 					<h4><span class="label label-default">{{form.pojo.nome}}</span></h4>
 					<div class="row"><p>{{form.pojo.descricao}}</div>
-					<h4><span class="label label-primary">Valor da hora:</span> {{formataValor(form.pojo.valorHora)}}</h4>
+					<h4><span class="label label-primary">Valor da hora:</span> {{form.pojo.valorFormatado}}</h4>
 				</div>				
 				<button ng-disabled="!formValid" class="btn btn-block btn-info" ng-click="save(form.pojo)"> Salvar <span class="glyphicon glyphicon-circle-floppy-disk"></span></button>	
 			</div>

@@ -64,8 +64,9 @@ function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 		copy.projeto = {id:form.pojo.projeto.id}
 			$requestService.post("funcoes", function(data) {
 				$rootScope.error = "";
-				$rootScope.success = data.message;
-				$scope.form.pojo.valor = data.entity;
+				console.log(data);
+				$rootScope.success = data.data.message;
+				$scope.form.pojo.valor = data.data.entity;
 			}, function(error, status) {
 				$rootScope.error = error.data;
 				$rootScope.success = "";

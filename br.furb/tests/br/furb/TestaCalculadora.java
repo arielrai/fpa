@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import fpa.core.FPACalculator;
 import fpa.model.Contribuicao;
 import fpa.model.FaixaComplexidade;
 import fpa.model.Funcao;
@@ -45,8 +44,7 @@ public class TestaCalculadora {
 
 	@Test
 	public void test() {
-		
-		FPACalculator.calculaValorFuncao(funcao, faixaComplexidade, contribuicao, tiposDeDado, tiposDeRegistro)
+//		FPACalculator.calculaValorFuncao(funcao, faixaComplexidade, contribuicao, tiposDeDado, tiposDeRegistro)
 	}
 
 }

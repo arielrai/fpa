@@ -18,12 +18,6 @@ function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 			$scope.form = response.data;
 			$scope.form.pojo.dataInicial = new Date($scope.form.pojo.dataInicial);
 			$scope.form.pojo.dataFinal = new Date($scope.form.pojo.dataFinal);
-			$scope.form.pojo.valorFormatado = $scope.form.pojo.valorFormatado.replace("R$", "").replace(",", "");
-			var length = $scope.form.pojo.valorFormatado.length;
-			for (var int = 0; int < 7-length; int++) {
-				$scope.form.pojo.valorFormatado = "0"+ $scope.form.pojo.valorFormatado;
-				
-			}
 			$scope.$watch('form.pojo', function (newValue, oldValue, scope) {
 				$scope.formValid = $scope.isAllFieldValid();
 			}, true);
@@ -53,13 +47,6 @@ function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 			return false;
 		}
 	} 
-	
-	$scope.formataValor = function(value){
-		value = value + "";
-		var afterComma = value.substring(value.length-2, value.length);
-		var beforeComma = value.substr(0, value.length-2).replace(/^0+/, '');
-		return "R$ " + beforeComma +","+ afterComma;
-	}
 	
 	$scope.save = function(pojo){
 		if (pojo.id == null) {

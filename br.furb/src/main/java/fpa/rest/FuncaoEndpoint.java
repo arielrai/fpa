@@ -1,7 +1,6 @@
 package fpa.rest;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -177,7 +176,7 @@ public class FuncaoEndpoint{
 			restResponse.setMessage("Função cadastrada com sucesso");
 			restResponse.setEntity(NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(calculaValorFuncao));
 			
-			return Response.ok().build();
+			return Response.ok(restResponse).build();
 		}else{
 			return Response.ok("Função atualizada com sucesso").build();
 		}

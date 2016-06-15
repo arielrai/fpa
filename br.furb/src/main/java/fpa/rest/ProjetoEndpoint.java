@@ -132,7 +132,7 @@ public class ProjetoEndpoint{
 		projeto.setNome(pojo.getNome());
 		projeto.setDescricao(pojo.getDescricao());
 		projeto.setComplexidades(pojo.getComplexidades());
-		String valorFormatado = pojo.getValorFormatado().replaceAll("\\.", "");
+		String valorFormatado = pojo.getValorFormatado().replaceAll("\\.", "").replaceAll("R\\$", "").replaceAll("\\,", "").trim();
 		projeto.setValorHora(new BigDecimal(new Double(
 				new StringBuilder(valorFormatado).insert(valorFormatado.length()-2, ".").toString())));
 		projeto.setDataInicial(pojo.getDataInicial());

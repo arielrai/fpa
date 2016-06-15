@@ -1,20 +1,16 @@
 package fpa.components.projeto;
 
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
 
 import fpa.components.table.AbstractTableService;
 import fpa.components.table.TableBean;
 import fpa.components.table.TableSearchProperty;
-import fpa.components.table.TableSortOrder;
 import fpa.components.table.TableViewType;
 import fpa.model.Projeto;
 
@@ -36,17 +32,6 @@ public class ProjetoTable extends AbstractTableService<Projeto> {
 		
 		//Adiciona as rows
 		Criteria projetoCriteria = em.unwrap(Session.class).createCriteria(Projeto.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		projetoCriteria.setFirstResult(startPosition);
-		projetoCriteria.setMaxResults(registrosPorPagina);
-
-		//TODO adicionar os filtros
-		if (searchProps != null && searchProps.isEmpty()) {
-		}
-		
-		if (sortBy != null && !sortBy.isEmpty()) {
-			Order hibernateOrder = TableSortOrder.getHibernateOrder(sortBy, sortOrder);
-			projetoCriteria.addOrder(hibernateOrder);
-		}
 		
 		List<Projeto> list = projetoCriteria.list();
 		;
