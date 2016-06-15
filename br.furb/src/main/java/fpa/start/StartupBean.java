@@ -92,7 +92,7 @@ public class StartupBean {
 
 	}
 	
-	private void carregaDados(FaixaComplexidade faixaComplexidadeALI, FaixaComplexidade faixaComplexidadeAIE ,FaixaComplexidade faixaComplexidadeSE, FaixaComplexidade faixaComplexidadeCE , FaixaComplexidade faixaComplexidadeEE){
+	public static void carregaDados(FaixaComplexidade faixaComplexidadeALI, FaixaComplexidade faixaComplexidadeAIE ,FaixaComplexidade faixaComplexidadeSE, FaixaComplexidade faixaComplexidadeCE , FaixaComplexidade faixaComplexidadeEE){
 		
 		List<FaixaComplexidadeIntervalo> faixasComplexidadeIntervaloALI = new ArrayList<>();
 		
@@ -176,7 +176,7 @@ public class StartupBean {
 	}
 	
 
-	private FaixaComplexidadeIntervalo inserirLinhaColuna(int deLinha, int ateLinha, int deColuna,
+	private static FaixaComplexidadeIntervalo inserirLinhaColuna(int deLinha, int ateLinha, int deColuna,
 			int ateColuna, OrdemComplexidade complexidade){
 		FaixaComplexidadeIntervalo intervalo = new FaixaComplexidadeIntervalo();
 		intervalo.setIntervaloLinha(deLinha, ateLinha);
