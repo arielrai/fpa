@@ -120,7 +120,7 @@
 						<p>{{dados.description}} {{form.pojo.descricao}}</p>
 					</div>
 					<div class="row">
-						<div ng-repeat="tabela in form.params.tabelas" class="col-md-4">
+						<div ng-repeat="tabela in form.params.tabelas" ng-if="isAlgumCampoSelecionado(tabela)" class="col-md-4">
 							<dl>
 								<h4>Tabela: <b>{{tabela.nome}} </b></h4>
     							<li ng-repeat=" campo in tabela.campos" ng-if="campo.selecionado">

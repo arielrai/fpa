@@ -66,7 +66,7 @@ function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 				$rootScope.error = "";
 				console.log(data);
 				$rootScope.success = data.data.message;
-				$scope.form.pojo.valor = data.data.entity;
+				$scope.form.pojo.valorFormatado = data.data.entity;
 			}, function(error, status) {
 				$rootScope.error = error.data;
 				$rootScope.success = "";
@@ -94,6 +94,16 @@ function($scope, $rootScope, $location, $state, $stateParams, $requestService) {
 		$scope.form.params.tabelas.push({nome:"", campos:[]});
 	}
 	
+	$scope.isAlgumCampoSelecionado = function(tabela){
+		let selecionado = false;
+		angular.forEach(tabela.campos, function(value, key) {
+			if (value.selecionado) {
+				console.log("passou do return");
+				selecionado = true;
+			}
+		});
+		return selecionado;
+	}
 	$scope.removeAtribute = function(tabela, index){
 		tabela.campos.splice(index, 1);
 	}

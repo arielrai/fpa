@@ -3,7 +3,7 @@ var fpa = angular.module('fpa', [ 'ui.router', 'ngTasty', 'ngAnimate', 'ui.boots
 fpa.config(function myAppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
 
 	$locationProvider.hashPrefix('fpa');
-	$urlRouterProvider.otherwise('projetos');
+	$urlRouterProvider.otherwise('projeto');
 
 	$stateProvider.state('login', {
 		url : '/login',
